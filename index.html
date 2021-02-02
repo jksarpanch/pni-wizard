@@ -10,8 +10,8 @@
     <meta name="Singh" content="SitePoint">
 
     <link rel="stylesheet" href="./styles.css">
-    <script src="./pni-wizard-lib.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/jksarpanch/pni-wizard/pni-wizard-lib.js"></script>
+    <!-- <script src="./pni-wizard-lib.js"></script> -->
 </head>
 
 <body>
@@ -23,14 +23,5 @@
 
     <button onclick="floatingWizard.openIntyeractiveWizard()">Open Wizard</button>
     <button onclick="floatingWizard.showNextQuestion()">Next question</button>
-    <div class="pni-wizard" id="pni-interactive-wizard">
-        <div class="pni-wizard-header">
-            <div class="title">Let me help You!</div>
-            <button data-close-button class="close-button"
-                onclick="floatingWizard.closeIntyeractiveWizard()">&times;</button>
-        </div>
-        <div class="pni-wizard-body">
-            <div class="pni-questions"></div>
-        </div>
-    </div>
+    <div class="pni-wizard" id="pni-interactive-wizard"></div>
 </body>

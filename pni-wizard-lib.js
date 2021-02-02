@@ -36,6 +36,7 @@ let addQuestionAnswerHtml = function (question, answers) {
     questionsHtml += `</select></div > `;
     return questionsHtml
 }
+
 let initializeFirstQuestion = function () {
     var questionsArea = document.querySelector('.pni-wizard-body');
     questionsArea.innerHTML = addQuestionAnswerHtml(questions[0].question, questions[0].answers)
@@ -43,7 +44,7 @@ let initializeFirstQuestion = function () {
 }
 
 var floatingWizard = {
-    currentQuestionIndex: 0,
+    currentQuestionIndex: 0,    
     pniWizard: function (selector) {
         var self =
         {
@@ -53,22 +54,33 @@ var floatingWizard = {
         };
         return self;
     },
-
+    initializeWizard: function(){
+        var wizard =  document.getElementById('pni-interactive-wizard')
+        wizard.innerHTML = `<div class="pni-wizard-header">
+        <div class="title">Let me help You!</div>
+        <button data-close-button class="close-button"
+            onclick="floatingWizard.closeIntyeractiveWizard()">&times;</button>
+        </div>
+        <div class="pni-wizard-body">
+            <div class="pni-questions"></div>
+        </div>`
+    },
     setCurrentQuestionIndex: function (index) {
         this.currentQuestionIndex = index
     },
 
     openIntyeractiveWizard: function () {
-        var wizard = document.getElementById('pni-interactive-wizard');
+        var wizard =  document.getElementById('pni-interactive-wizard')
+        this.initializeWizard();
         wizard.classList.add('active');
         initializeFirstQuestion();
     },
     closeIntyeractiveWizard: function () {
-        var wizard = document.getElementById('pni-interactive-wizard');
+        var wizard =  document.getElementById('pni-interactive-wizard')
         wizard.classList.remove('active');
     },
     isPniWizardOpen: function () {
-        var wizard = document.getElementById('pni-interactive-wizard');
+        var wizard =  document.getElementById('pni-interactive-wizard')
         return wizard.classList.contains('active');
     },
 

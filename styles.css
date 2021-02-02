@@ -1,0 +1,50 @@
+.pni-wizard {
+  position: fixed;
+  width: 20%;
+  min-width: 200px !important;
+  min-height: 200px;
+  right: 2%;
+  top: 28%;
+  border: 1px solid black;
+  z-index: 99;
+  border-radius: 10px;
+  background-color: white;
+  max-width: 40%;
+  transform: scale(0);
+}
+.pni-wizard.active {
+    transform: scale(1);
+}
+.pni-wizard-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.pni-wizard-header .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.pni-wizard-header .close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.pni-wizard-body {
+    padding: 10px 15px;
+}
+.pni-questions .pni-question{
+    background-color: dodgerblue;
+    color: white;
+    padding:0.5rem;
+    border-radius: 25px;
+    margin-left: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    display: flex;    
+    align-items: center;
+}

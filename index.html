@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="Singh" content="SitePoint">
+
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./pni-wizard-lib.js"></script>
+
+</head>
+
+<body>
+    <h1>Hello</h1>
+
+    <script>
+        console.log(floatingWizard.pniWizard('h1').html())
+    </script>
+
+    <button onclick="floatingWizard.openIntyeractiveWizard()">Open Wizard</button>
+    <button onclick="floatingWizard.showNextQuestion()">Next question</button>
+    <div class="pni-wizard" id="pni-interactive-wizard">
+        <div class="pni-wizard-header">
+            <div class="title">Let me help You!</div>
+            <button data-close-button class="close-button"
+                onclick="floatingWizard.closeIntyeractiveWizard()">&times;</button>
+        </div>
+        <div class="pni-wizard-body">
+            <div class="pni-questions"></div>
+        </div>
+    </div>
+</body>

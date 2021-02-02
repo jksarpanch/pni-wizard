@@ -1,4 +1,4 @@
-const questions = [
+var questions = [
     {
         index: 0,
         question: "What are you looking for",

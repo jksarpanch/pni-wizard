@@ -21,6 +21,7 @@ let clearAllQuestions = function () {
 
 let handleOptionChange = function (e, question) {
     floatingWizard.showNextQuestion()
+    console.log(question)
     var questionData = {
         eventType: 'user_answered_question',
           eventData: {
@@ -47,7 +48,7 @@ var floatingWizard = {
         var questionsHtml = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
         <span class="pni-question" style="font-weight: bold"> ${question}</span>
         <div style='text-align: right; margin-top: 10px'>
-        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event, question)">
+        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event, '${question}')">
         <option value="">Select</option>
         </div>
         `

@@ -1,17 +1,17 @@
 var questions = []
-var getQuestionsData = function(){
+var getQuestionsData = function () {
     let request = new XMLHttpRequest();
     request.open('GET', 'https://pni-dev-p2p-web-api.pnidev.com/PNIMEDIA/DynamicQuestions/');
     request.send();
-    request.onload = function(){
+    request.onload = function () {
+        console.log(request)
+        if (request.status == '200') {
+            questions = JSON.parse(request.response);
+        }
+        else {
             console.log(request)
-            if(request.status == '200'){
-                questions = JSON.parse(request.response);
-            }
-            else{
-                console.log(request)
-            }
-    }     
+        }
+    }
 }
 getQuestionsData();
 let clearAllQuestions = function () {
@@ -20,20 +20,20 @@ let clearAllQuestions = function () {
 }
 
 let handleOptionChange = function (e, question, questionSequence) {
-    if(parseInt(questionSequence) == floatingWizard.currentQuestionIndex)
+    if (parseInt(questionSequence) == floatingWizard.currentQuestionIndex)
         floatingWizard.showNextQuestion()
     var questionData = {
         eventType: 'user_answered_question',
-          eventData: {
+        eventData: {
             question: question, // required property
             answerValue: e.target.value // required property
-          }
+        }
     }
-    window.pniTrackingEvent(questionData);    
+    window.pniTrackingEvent(questionData);
 }
 
 var floatingWizard = {
-    currentQuestionIndex: 0,    
+    currentQuestionIndex: 0,
     pniWizard: function (selector) {
         var self =
         {
@@ -58,14 +58,14 @@ var floatingWizard = {
         questionsHtml += `</select></div > `;
         return questionsHtml
     },
-    
+
     initializeFirstQuestion: function () {
         var questionsArea = document.querySelector('.pni-wizard-body');
         questionsArea.innerHTML = this.addQuestionAnswerHtml(questions[0].Question, questions[0].Choices, questions[0].Sequence)
         floatingWizard.setCurrentQuestionIndex(questions[0].Sequence)
     },
-    initializeWizard: function(){
-        var wizard =  document.getElementById('pni-interactive-wizard')
+    initializeWizard: function () {
+        var wizard = document.getElementById('pni-interactive-wizard')
         wizard.innerHTML = `<div class="pni-wizard-header">
         <div class="title">Let me help You!</div>
         <button data-close-button class="close-button"
@@ -80,17 +80,19 @@ var floatingWizard = {
     },
 
     openIntyeractiveWizard: function () {
-        var wizard =  document.getElementById('pni-interactive-wizard')
-        this.initializeWizard();
-        wizard.classList.add('active');
-        this.initializeFirstQuestion();
+        var wizard = document.getElementById('pni-interactive-wizard')
+        if (wizard.className.indexOf('active') == -1) {
+            this.initializeWizard();
+            wizard.classList.add('active');
+            this.initializeFirstQuestion();
+        }
     },
     closeIntyeractiveWizard: function () {
-        var wizard =  document.getElementById('pni-interactive-wizard')
+        var wizard = document.getElementById('pni-interactive-wizard')
         wizard.classList.remove('active');
     },
     isPniWizardOpen: function () {
-        var wizard =  document.getElementById('pni-interactive-wizard')
+        var wizard = document.getElementById('pni-interactive-wizard')
         return wizard.classList.contains('active');
     },
 
@@ -103,9 +105,9 @@ var floatingWizard = {
             this.setCurrentQuestionIndex(this.currentQuestionIndex + 1)
         }
     },
-    getCatalogData: function(){
-        setTimeout(function(){
+    getCatalogData: function () {
+        setTimeout(function () {
             return []
-        },2000)
+        }, 2000)
     }
 }

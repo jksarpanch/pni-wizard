@@ -19,8 +19,16 @@ let clearAllQuestions = function () {
     questionsArea.innerHTML = '';
 }
 
-let handleOptionChange = function (e) {
+let handleOptionChange = function (e, question) {
     floatingWizard.showNextQuestion()
+    var questionData = {
+        eventType: 'user_answered_question',
+          eventData: {
+            question: question, // required property
+            answerValue: e.target.value // required property
+          }
+    }
+    window.pniTrackingEvent(questionData);    
     console.log(e)
 }
 
@@ -37,10 +45,9 @@ var floatingWizard = {
     },
     addQuestionAnswerHtml: function (question, Choices) {
         var questionsHtml = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
-        <span class="pni-question"> ${question}</span>
-        <div style='text-align: center; margin-top: 10px'>
-        <label for="answerOptions">Choices:</label>
-        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event)">
+        <span class="pni-question" style="font-weight: bold"> ${question}</span>
+        <div style='text-align: right; margin-top: 10px'>
+        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event, question)">
         <option value="">Select</option>
         </div>
         `

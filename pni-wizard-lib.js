@@ -1,46 +1,27 @@
-var questions = [
-    {
-        index: 0,
-        question: "What are you looking for",
-        answers: [{ answerId: '1', answerValue: 'Cloths' }, { answerId: '2', answerValue: 'Shoes' }]
-    },
-    {
-        index: 1,
-        question: "Please pick a category",
-        answers: [{ answerId: '1', answerValue: 'Men' }, { answerId: '2', answerValue: 'Women' }]
-    },
-    {
-        index: 2,
-        question: "So which one looks best?",
-        answers: [{ answerId: '1', answerValue: 'Sneakers' }, { answerId: '2', answerValue: 'Sport' }]
-    }
-]
+var questions = []
+var getQuestionsData = function(){
+    let request = new XMLHttpRequest();
+    request.open('GET', 'https://pni-dev-p2p-web-api.pnidev.com/PNIMEDIA/DynamicQuestions/');
+    request.send();
+    request.onload = function(){
+            console.log(request)
+            if(request.status == '200'){
+                questions = JSON.parse(request.response);
+            }
+            else{
+                console.log(request)
+            }
+    }     
+}
+getQuestionsData();
 let clearAllQuestions = function () {
     var questionsArea = document.querySelector('.pni-wizard-body');
     questionsArea.innerHTML = '';
 }
 
 let handleOptionChange = function (e) {
+    floatingWizard.showNextQuestion()
     console.log(e)
-}
-let addQuestionAnswerHtml = function (question, answers) {
-    var questionsHtml = `<div class="pni-questions">
-    <span class="pni-question"> ${question}</span>
-    <label for="answerOptions">Options:</label>
-    <select name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event)">
-    <option value="">Select</option>
-    `
-    for (let i = 0; i < answers.length; i++) {
-        questionsHtml += `<option value="${answers[i].answerId}">${answers[i].answerValue}</option>`
-    }
-    questionsHtml += `</select></div > `;
-    return questionsHtml
-}
-
-let initializeFirstQuestion = function () {
-    var questionsArea = document.querySelector('.pni-wizard-body');
-    questionsArea.innerHTML = addQuestionAnswerHtml(questions[0].question, questions[0].answers)
-    floatingWizard.setCurrentQuestionIndex(questions[0].index)
 }
 
 var floatingWizard = {
@@ -54,6 +35,28 @@ var floatingWizard = {
         };
         return self;
     },
+    addQuestionAnswerHtml: function (question, Choices) {
+        var questionsHtml = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
+        <span class="pni-question"> ${question}</span>
+        <div style='text-align: center; margin-top: 10px'>
+        <label for="answerOptions">Choices:</label>
+        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event)">
+        <option value="">Select</option>
+        </div>
+        `
+        for (let i = 0; i < Choices.length; i++) {
+            questionsHtml += `<option value="${Choices[i]}">${Choices[i]}</option>`
+            // questionsHtml += `<option value="${Choices[i].answerId}">${Choices[i].answerValue}</option>`
+        }
+        questionsHtml += `</select></div > `;
+        return questionsHtml
+    },
+    
+    initializeFirstQuestion: function () {
+        var questionsArea = document.querySelector('.pni-wizard-body');
+        questionsArea.innerHTML = this.addQuestionAnswerHtml(questions[0].Question, questions[0].Choices)
+        floatingWizard.setCurrentQuestionIndex(questions[0].Sequence)
+    },
     initializeWizard: function(){
         var wizard =  document.getElementById('pni-interactive-wizard')
         wizard.innerHTML = `<div class="pni-wizard-header">
@@ -65,15 +68,15 @@ var floatingWizard = {
             <div class="pni-questions"></div>
         </div>`
     },
-    setCurrentQuestionIndex: function (index) {
-        this.currentQuestionIndex = index
+    setCurrentQuestionIndex: function (Sequence) {
+        this.currentQuestionIndex = Sequence
     },
 
     openIntyeractiveWizard: function () {
         var wizard =  document.getElementById('pni-interactive-wizard')
         this.initializeWizard();
         wizard.classList.add('active');
-        initializeFirstQuestion();
+        this.initializeFirstQuestion();
     },
     closeIntyeractiveWizard: function () {
         var wizard =  document.getElementById('pni-interactive-wizard')
@@ -86,12 +89,16 @@ var floatingWizard = {
 
     showNextQuestion: function () {
         if (this.isPniWizardOpen() && this.currentQuestionIndex < questions.length - 1) {
-            clearAllQuestions()
+            // clearAllQuestions()
             var questionsArea = document.querySelector('.pni-wizard-body');
-            let questionHtml = addQuestionAnswerHtml(questions[this.currentQuestionIndex + 1].question, questions[this.currentQuestionIndex + 1].answers)
+            let questionHtml = this.addQuestionAnswerHtml(questions[this.currentQuestionIndex].Question, questions[this.currentQuestionIndex].Choices)
             questionsArea.insertAdjacentHTML("beforeend", questionHtml);
             this.setCurrentQuestionIndex(this.currentQuestionIndex + 1)
         }
+    },
+    getCatalogData: function(){
+        setTimeout(function(){
+            return []
+        },2000)
     }
-
 }

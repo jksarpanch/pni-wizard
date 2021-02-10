@@ -19,9 +19,9 @@ let clearAllQuestions = function () {
     questionsArea.innerHTML = '';
 }
 
-let handleOptionChange = function (e, question) {
-    floatingWizard.showNextQuestion()
-    console.log(question)
+let handleOptionChange = function (e, question, questionSequence) {
+    if(parseInt(questionSequence) == floatingWizard.currentQuestionIndex)
+        floatingWizard.showNextQuestion()
     var questionData = {
         eventType: 'user_answered_question',
           eventData: {
@@ -30,7 +30,6 @@ let handleOptionChange = function (e, question) {
           }
     }
     window.pniTrackingEvent(questionData);    
-    console.log(e)
 }
 
 var floatingWizard = {
@@ -44,11 +43,11 @@ var floatingWizard = {
         };
         return self;
     },
-    addQuestionAnswerHtml: function (question, Choices) {
+    addQuestionAnswerHtml: function (question, Choices, questionSequence) {
         var questionsHtml = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
         <span class="pni-question" style="font-weight: bold"> ${question}</span>
         <div style='text-align: right; margin-top: 10px'>
-        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event, '${question}')">
+        <select class="select-css" name="answerOptions${this.currentQuestionIndex}" id="answerOptions${this.currentQuestionIndex}" onchange="handleOptionChange(event, '${question}', '${questionSequence}')">
         <option value="">Select</option>
         </div>
         `
@@ -62,7 +61,7 @@ var floatingWizard = {
     
     initializeFirstQuestion: function () {
         var questionsArea = document.querySelector('.pni-wizard-body');
-        questionsArea.innerHTML = this.addQuestionAnswerHtml(questions[0].Question, questions[0].Choices)
+        questionsArea.innerHTML = this.addQuestionAnswerHtml(questions[0].Question, questions[0].Choices, questions[0].Sequence)
         floatingWizard.setCurrentQuestionIndex(questions[0].Sequence)
     },
     initializeWizard: function(){
@@ -76,8 +75,8 @@ var floatingWizard = {
             <div class="pni-questions"></div>
         </div>`
     },
-    setCurrentQuestionIndex: function (Sequence) {
-        this.currentQuestionIndex = Sequence
+    setCurrentQuestionIndex: function (index) {
+        this.currentQuestionIndex = index
     },
 
     openIntyeractiveWizard: function () {
@@ -99,7 +98,7 @@ var floatingWizard = {
         if (this.isPniWizardOpen() && this.currentQuestionIndex < questions.length - 1) {
             // clearAllQuestions()
             var questionsArea = document.querySelector('.pni-wizard-body');
-            let questionHtml = this.addQuestionAnswerHtml(questions[this.currentQuestionIndex].Question, questions[this.currentQuestionIndex].Choices)
+            let questionHtml = this.addQuestionAnswerHtml(questions[this.currentQuestionIndex].Question, questions[this.currentQuestionIndex].Choices, questions[this.currentQuestionIndex].Sequence)
             questionsArea.insertAdjacentHTML("beforeend", questionHtml);
             this.setCurrentQuestionIndex(this.currentQuestionIndex + 1)
         }

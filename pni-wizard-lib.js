@@ -20,8 +20,10 @@ let clearAllQuestions = function () {
 }
 
 let handleOptionChange = function (e, question, questionSequence) {
-    if (parseInt(questionSequence) == floatingWizard.currentQuestionIndex)
+    if (parseInt(questionSequence) == floatingWizard.currentQuestionIndex){
         floatingWizard.showNextQuestion()
+        window.parent.postMessage("To page code", "https://satish0543.wixsite.com");
+    }
     var questionData = {
         eventType: 'user_answered_question',
         eventData: {

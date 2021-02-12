@@ -22,7 +22,8 @@ let clearAllQuestions = function () {
 let handleOptionChange = function (e, question, questionSequence) {
     if (parseInt(questionSequence) == floatingWizard.currentQuestionIndex){
         floatingWizard.showNextQuestion()
-        window.parent.postMessage("To page code", "https://satish0543.wixsite.com");
+        //TODO: JSS Temp
+        window.parent.postMessage(["df19c1f7-07d8-a265-42f8-e8dfa824cc6e", "2e714edd-0d50-131a-538f-90f23863792b"], "https://satish0543.wixsite.com");
     }
     var questionData = {
         eventType: 'user_answered_question',

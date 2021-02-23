@@ -1,0 +1,29 @@
+{
+    "name": "analytics-wizard",
+    "version": "1.0.0",
+    "description": "PNI-Wizard for displaying dynamic questions and choices",
+    "author": "Jaskaran Singh Sandhu",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "lib/index.d.ts",
+    "module": "lib/index.js",
+    "scripts": {
+        "clean": "shx rm -rf dist lib lib-esm",
+        "copy-files": "copyfiles --flat src/*.css lib && copyfiles --flat src/*.css lib lib-esm",
+        "build": "npm run clean && tsc && npm run copy-files && tsc -m es6 --outDir lib-esm && webpack"
+    },
+    "dependencies": {
+        "awesome-typescript-loader": "^5.2.1",
+        "copyfiles": "^2.4.1",
+        "css-loader": "^5.0.2",
+        "mini-css-extract-plugin": "^1.3.8",
+        "shx": "^0.3.3",
+        "ts-loader": "^8.0.16",
+        "typescript": "^4.1.5",
+        "uglifyjs-webpack-plugin": "^2.2.0",
+        "webpack": "^5.21.2"
+    },
+    "devDependencies": {
+        "webpack-cli": "^4.5.0"
+    }
+}

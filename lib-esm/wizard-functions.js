@@ -47,7 +47,7 @@ var WizardFunctions = (function () {
             var question = currentQuestion.Question;
             if (parseInt(currentQuestion.Sequence) == _this.currentQuestionIndex) {
                 _this.showNextQuestion();
-                window.parent.postMessage(["df19c1f7-07d8-a265-42f8-e8dfa824cc6e", "2e714edd-0d50-131a-538f-90f23863792b"], "https://satish0543.wixsite.com");
+                window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508", "b970f69d-8eaa-4e23-be00-317812dc39c0", "9ce41a06-0e04-4362-ae92-0bff6fd21761", "f0cc9dcc-12d5-4453-a699-bf46169f4027", "efc52615-71ad-46e3-8367-1aa95f5ed2da", "c0737b3a-772a-4f6e-a279-c1bf3b8ab435", "239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
             }
             var questionData = {
                 eventType: 'user_answered_question',

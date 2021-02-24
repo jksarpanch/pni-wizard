@@ -3,17 +3,18 @@ declare var window;
 export class WizardFunctions {
   currentQuestionIndex: number = 0
   private questionsApiRetryCount = 0;
-  private questions;
+  private questions=[];
   private defaultTopPosition = '25%';
   private defaultRightPosition = '2%';
   private defaultLeftPosition = 'unset';
-  private async fetchedQuestions() {
-    let ques = await fetch('https://pni-dev-p2p-web-api.pnidev.com/PNIMEDIA/DynamicQuestions/')
-    this.questions = await ques.json()
-
+  private async fetchedQuestions(queryParams) {
+    let ques = await fetch('https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/' + queryParams)
+    let newQuestions = await ques.json();
+    console.log(newQuestions)
+    this.questions.push(newQuestions[0]);
   }
   constructor() {
-    this.fetchedQuestions();
+    this.fetchedQuestions('');
   }
 
   private setCurrentQuestionIndex(index: number): void {
@@ -67,10 +68,10 @@ export class WizardFunctions {
   private handleOptionChange = (e, currentQuestionSequence) => {
     let currentQuestion = this.questions[currentQuestionSequence];
     let question = currentQuestion.Question;
-    if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {
-      this.showNextQuestion()
+    if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {      
+      this.showNextQuestion(currentQuestion.Sequence, e.target.value)
       //TODO: JSS Temp
-      window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508","b970f69d-8eaa-4e23-be00-317812dc39c0","9ce41a06-0e04-4362-ae92-0bff6fd21761","f0cc9dcc-12d5-4453-a699-bf46169f4027","efc52615-71ad-46e3-8367-1aa95f5ed2da","c0737b3a-772a-4f6e-a279-c1bf3b8ab435","239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
+      // window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508","b970f69d-8eaa-4e23-be00-317812dc39c0","9ce41a06-0e04-4362-ae92-0bff6fd21761","f0cc9dcc-12d5-4453-a699-bf46169f4027","efc52615-71ad-46e3-8367-1aa95f5ed2da","c0737b3a-772a-4f6e-a279-c1bf3b8ab435","239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
     }
     let questionData = {
       eventType: 'user_answered_question',
@@ -99,9 +100,20 @@ export class WizardFunctions {
     wizard.style.right = rightPosition
     wizard.style.left = leftPosition
   }
-  showNextQuestion() {
-    if (this.isPniWizardOpen() && this.currentQuestionIndex < this.questions.length - 1) {
+  private queryParams = ''
+  private setQuestionsQuery(seq, answerValue){
+    let newQuery = String(seq) + '/' + String(answerValue)+ '/';
+    this.queryParams += newQuery;
+  }
+  async showNextQuestion(seq?, answerValue?) {
+    
+    if (this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length ) {
       // clearAllQuestions()
+      this.setQuestionsQuery(seq, answerValue)
+      let ques = await fetch('https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/' + this.queryParams)
+      let newQuestions = await ques.json();
+      this.questions.push(newQuestions[0]);
+
       let questionsArea = document.querySelector('.pni-wizard-body');
       let questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex)
       questionsArea.insertAdjacentHTML("beforeend", questionHtml);

@@ -16,7 +16,9 @@ export declare class WizardFunctions {
     private handleOptionChange;
     private clearAllQuestions;
     private wizardPositioning;
-    showNextQuestion(): void;
+    private queryParams;
+    private setQuestionsQuery;
+    showNextQuestion(seq?: any, answerValue?: any): Promise<void>;
     closeInteractiveWizard: () => void;
     private populateWizard;
     private removeRepetitiveElements;

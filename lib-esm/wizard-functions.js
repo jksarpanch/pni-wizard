@@ -47,7 +47,7 @@ var WizardFunctions = (function () {
             var question = currentQuestion.Question;
             if (parseInt(currentQuestion.Sequence) == _this.currentQuestionIndex) {
                 _this.showNextQuestion();
-                window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508", "b970f69d-8eaa-4e23-be00-317812dc39c0", "9ce41a06-0e04-4362-ae92-0bff6fd21761", "f0cc9dcc-12d5-4453-a699-bf46169f4027", "efc52615-71ad-46e3-8367-1aa95f5ed2da", "c0737b3a-772a-4f6e-a279-c1bf3b8ab435", "239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
+                window.parent.postMessage(["df19c1f7-07d8-a265-42f8-e8dfa824cc6e", "2e714edd-0d50-131a-538f-90f23863792b"], "https://satish0543.wixsite.com");
             }
             var questionData = {
                 eventType: 'user_answered_question',
@@ -56,7 +56,6 @@ var WizardFunctions = (function () {
                     answerValue: e.target.value
                 }
             };
-            window.pniTrackingEvent(questionData);
         };
         this.closeInteractiveWizard = function () {
             var wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
@@ -115,7 +114,7 @@ var WizardFunctions = (function () {
         this.currentQuestionIndex = index;
     };
     WizardFunctions.prototype.getWizardContent = function () {
-        return "<div class=\"pni-wizard-header\">\n    <div class=\"title\">Let me help You!</div>\n    <button data-close-button class=\"close-button\" id='pni-wizard-closeBtn'>&times;</button>\n    </div>\n    <div class=\"pni-wizard-body\">\n        <div class=\"pni-questions\"></div>\n    </div>";
+        return "<div class=\"pni-wizard-header pni-color-theme\">\n    <div class=\"title\">Let me help You!</div>\n    <button data-close-button class=\"close-button\" id='pni-wizard-closeBtn'>&times;</button>\n    </div>\n    <div class=\"pni-wizard-body\">\n        <div class=\"pni-questions\"></div>\n    </div>";
     };
     WizardFunctions.prototype.initializeWizard = function (wizardContainer, populateByContainer) {
         if (populateByContainer) {
@@ -127,7 +126,7 @@ var WizardFunctions = (function () {
         var currentQuestion = this.questions[currentQuesIndex];
         var Choices = currentQuestion.Choices;
         var question = currentQuestion.Question;
-        var questionsHtml = "<div class=\"pni-questions\" style='text-align: center; margin-bottom: 10px'>\n        <span class=\"pni-question\" style=\"font-weight: bold\"> " + question + "</span>\n        <div style='text-align: right; margin-top: 10px'>\n        <select class=\"select-css\" name=\"answerOptions" + currentQuesIndex + "\" id=\"answerOptions" + currentQuesIndex + "\">\n        <option value=\"\">Select</option>\n        </div>\n        ";
+        var questionsHtml = "<div class=\"pni-questions\" style='text-align: center; margin-bottom: 10px'>\n        <div class=\"pni-question\"> " + question + "</div>\n        <div style='text-align: right; margin-top: 10px'>\n        <select class=\"select-css\" name=\"answerOptions" + currentQuesIndex + "\" id=\"answerOptions" + currentQuesIndex + "\">\n        <option value=\"\">Select</option>\n        </div>\n        ";
         for (var i = 0; i < Choices.length; i++) {
             questionsHtml += "<option value=\"" + Choices[i] + "\">" + Choices[i] + "</option>";
         }

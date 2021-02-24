@@ -20,7 +20,7 @@ export class WizardFunctions {
     this.currentQuestionIndex = index
   }
   private getWizardContent() {
-    return `<div class="pni-wizard-header">
+    return `<div class="pni-wizard-header pni-color-theme">
     <div class="title">Let me help You!</div>
     <button data-close-button class="close-button" id='pni-wizard-closeBtn'>&times;</button>
     </div>
@@ -39,7 +39,7 @@ export class WizardFunctions {
     let Choices = currentQuestion.Choices;
     let question = currentQuestion.Question;
     let questionsHtml: string = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
-        <span class="pni-question" style="font-weight: bold"> ${question}</span>
+        <div class="pni-question"> ${question}</div>
         <div style='text-align: right; margin-top: 10px'>
         <select class="select-css" name="answerOptions${currentQuesIndex}" id="answerOptions${currentQuesIndex}">
         <option value="">Select</option>
@@ -70,7 +70,7 @@ export class WizardFunctions {
     if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {
       this.showNextQuestion()
       //TODO: JSS Temp
-      window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508","b970f69d-8eaa-4e23-be00-317812dc39c0","9ce41a06-0e04-4362-ae92-0bff6fd21761","f0cc9dcc-12d5-4453-a699-bf46169f4027","efc52615-71ad-46e3-8367-1aa95f5ed2da","c0737b3a-772a-4f6e-a279-c1bf3b8ab435","239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
+      window.parent.postMessage(["df19c1f7-07d8-a265-42f8-e8dfa824cc6e", "2e714edd-0d50-131a-538f-90f23863792b"], "https://satish0543.wixsite.com");
     }
     let questionData = {
       eventType: 'user_answered_question',
@@ -79,7 +79,7 @@ export class WizardFunctions {
         answerValue: e.target.value // required property
       }
     }
-    window.pniTrackingEvent(questionData);
+    // window.pniTrackingEvent(questionData);
   }
   private clearAllQuestions() {
     let questionsArea = document.querySelector('.pni-wizard-body');

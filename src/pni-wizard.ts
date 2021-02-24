@@ -15,5 +15,5 @@ export class PniWizard {
   }
   showNextQuestion = () => {
     this.wf.showNextQuestion()
-  }  
+  } 
 }

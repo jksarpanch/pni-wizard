@@ -57,6 +57,7 @@ var WizardFunctions = (function () {
                     answerValue: e.target.value
                 }
             };
+            window.pniTrackingEvent(questionData);
         };
         this.queryParams = '';
         this.closeInteractiveWizard = function () {

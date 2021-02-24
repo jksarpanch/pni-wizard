@@ -80,7 +80,7 @@ export class WizardFunctions {
         answerValue: e.target.value // required property
       }
     }
-    // window.pniTrackingEvent(questionData);
+    window.pniTrackingEvent(questionData);
   }
   private clearAllQuestions() {
     let questionsArea = document.querySelector('.pni-wizard-body');

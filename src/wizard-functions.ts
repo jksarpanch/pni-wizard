@@ -237,6 +237,8 @@ export class WizardFunctions {
     this.resetWizard();
     this.closeInteractiveWizard();
     this.openInteractiveWizard();
+    // TODO:JSS only for wix
+    window.parent.postMessage(undefined, "https://satish0543.wixsite.com");
   }
   closeInteractiveWizard = () => {
     let wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];

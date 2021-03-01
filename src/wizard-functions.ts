@@ -138,6 +138,9 @@ export class WizardFunctions {
     let ques = await this.fetchWithQuery();
     let newQuestion = await ques.json();
     // check if new question is coming with some choices
+    //TODO:JSS Temp        
+    window.parent.postMessage(newQuestion[0].Products, "https://satish0543.wixsite.com");
+
     if (newQuestion && newQuestion[0] && newQuestion[0].Choices.length >= 1) {
       this.questions.push(newQuestion[0]);
       return true
@@ -208,9 +211,7 @@ export class WizardFunctions {
       this.setQuestionsQuery(questionSequence, answerValue);
       // Fetch new question from api
       let newQuestion = await this.setNewQuestion();
-      if (newQuestion) {
-        //TODO:JSS Temp        
-        window.parent.postMessage(this.questions[this.questions.length-1].Products, "https://satish0543.wixsite.com");
+      if (newQuestion) {        
         // window.parent.postMessage(newQuestion.Products, "https://satish0543.wixsite.com");
         // Add/append html for new questions
         let questionsArea = document.querySelector('.pni-wizard-body');

@@ -82,9 +82,7 @@ export class WizardFunctions {
       this.currentQuestionIndex = this.questions.length;
       this.showNextQuestion(currentQuestion.Sequence, e.target.value)
       this.showHideResetButton();
-    }
-    // TODO:JSS Temp for Wix
-    window.parent.postMessage(this.questions[this.questions.length].Products, "https://satish0543.wixsite.com");
+    }    
     let questionData = {
       eventType: 'user_answered_question',
       eventData: {
@@ -210,7 +208,8 @@ export class WizardFunctions {
       // Fetch new question from api
       let newQuestion = await this.setNewQuestion();
       if (newQuestion) {
-        //TODO:JSS Temp
+        //TODO:JSS Temp        
+        window.parent.postMessage(this.questions[this.questions.length-1].Products, "https://satish0543.wixsite.com");
         // window.parent.postMessage(newQuestion.Products, "https://satish0543.wixsite.com");
         // Add/append html for new questions
         let questionsArea = document.querySelector('.pni-wizard-body');
@@ -222,6 +221,9 @@ export class WizardFunctions {
         this.currentQuestionIndex = this.currentQuestionIndex + 1
         this.showHideResetButton();
       }
+    }
+    else if(this.isPniWizardOpen() && !answerValue){
+      window.parent.postMessage(this.questions[this.questions.length-1].Products, "https://satish0543.wixsite.com");
     }
   }
   private resetWizard = () => {

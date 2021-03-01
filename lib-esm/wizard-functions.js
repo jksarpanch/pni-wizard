@@ -58,7 +58,6 @@ var WizardFunctions = (function () {
                 _this.showNextQuestion(currentQuestion.Sequence, e.target.value);
                 _this.showHideResetButton();
             }
-            window.parent.postMessage(_this.questions[_this.questions.length].Products, "https://satish0543.wixsite.com");
             var questionData = {
                 eventType: 'user_answered_question',
                 eventData: {
@@ -258,6 +257,7 @@ var WizardFunctions = (function () {
                     case 1:
                         newQuestion = _a.sent();
                         if (newQuestion) {
+                            window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
                             questionsArea = document.querySelector('.pni-wizard-body');
                             questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex);
                             questionsArea.insertAdjacentHTML("beforeend", questionHtml);
@@ -267,8 +267,13 @@ var WizardFunctions = (function () {
                             this.currentQuestionIndex = this.currentQuestionIndex + 1;
                             this.showHideResetButton();
                         }
-                        _a.label = 2;
-                    case 2: return [2];
+                        return [3, 3];
+                    case 2:
+                        if (this.isPniWizardOpen() && !answerValue) {
+                            window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
+                        }
+                        _a.label = 3;
+                    case 3: return [2];
                 }
             });
         });

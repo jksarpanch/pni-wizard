@@ -61,7 +61,8 @@ var WizardFunctions = (function () {
             var questionData = {
                 eventType: 'user_answered_question',
                 eventData: {
-                    question: question,
+                    sequence_id: currentQuestionSequence,
+                    questionText: question,
                     answerValue: e.target.value
                 }
             };

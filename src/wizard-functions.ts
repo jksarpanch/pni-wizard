@@ -86,8 +86,9 @@ export class WizardFunctions {
     let questionData = {
       eventType: 'user_answered_question',
       eventData: {
-        question: question, // required property
-        answerValue: e.target.value // required property
+        sequence_id: currentQuestionSequence,
+        questionText: question, 
+        answerValue: e.target.value 
       }
     }
     window.pniTrackingEvent(questionData);

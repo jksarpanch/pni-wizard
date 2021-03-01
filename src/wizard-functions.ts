@@ -134,7 +134,7 @@ export class WizardFunctions {
     this.questionsApiQueryParams = query
   }
   // Once a user will make a selection then an api will be called to fetch new question
-  private async setNewQuestion() {
+  private  setNewQuestion = async () => {
     let ques = await this.fetchWithQuery();
     let newQuestion = await ques.json();
     // check if new question is coming with some choices
@@ -142,6 +142,7 @@ export class WizardFunctions {
       this.questions.push(newQuestion[0]);
       return true
     }
+    this.questionQueryList.pop();
     return null;
   }
   private addResetButton = () => {

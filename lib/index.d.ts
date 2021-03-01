@@ -1,2 +1,2 @@
-declare let openInteractiveWizard: () => void, closeInteractiveWizard: () => void, showNextQuestion: () => void;
-export { openInteractiveWizard, closeInteractiveWizard, showNextQuestion };
+declare let openInteractiveWizard: () => void, closeInteractiveWizard: () => void, resetInteractiveWizard: () => void;
+export { openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard };

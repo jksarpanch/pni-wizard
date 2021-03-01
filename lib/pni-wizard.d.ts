@@ -4,5 +4,5 @@ export declare class PniWizard {
     constructor();
     openInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;
-    showNextQuestion: () => void;
+    resetInteractiveWizard: () => void;
 }

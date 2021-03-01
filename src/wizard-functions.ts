@@ -1,59 +1,62 @@
 declare var window;
 
 export class WizardFunctions {
-  currentQuestionIndex: number = 0
+  private currentQuestionIndex: number = 0
   private questionsApiRetryCount = 0;
-  private questions=[];
+  private questions = [];
+  private questionsApiQueryParams = ''
   private defaultTopPosition = '25%';
   private defaultRightPosition = '2%';
   private defaultLeftPosition = 'unset';
-  private async fetchedQuestions(queryParams) {
-    let ques = await fetch('https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/' + queryParams)
+  private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
+  private questionQueryList: string[] = [];
+
+  constructor() {
+    this.fetchNFirstQuestion();
+  }
+  // Will make an api call to dynamic questions
+  private async fetchWithQuery() {
+    return await fetch(this.dynamicsQuestionApi + this.questionsApiQueryParams)
+  }
+  private async fetchNFirstQuestion() {
+    let ques = await this.fetchWithQuery()
     let newQuestions = await ques.json();
-    console.log(newQuestions)
     this.questions.push(newQuestions[0]);
   }
-  constructor() {
-    this.fetchedQuestions('');
-  }
-
-  private setCurrentQuestionIndex(index: number): void {
-    this.currentQuestionIndex = index
-  }
-  private getWizardContent() {
-    return `<div class="pni-wizard-header pni-color-theme">
+  // Will return html for wizard main content 
+  private getWizardContent(): string {
+    return `<div class="pni-wizard-header pni-color-theme-background">
     <div class="title">Let me help You!</div>
     <button data-close-button class="close-button" id='pni-wizard-closeBtn'>&times;</button>
     </div>
-    <div class="pni-wizard-body">
-        <div class="pni-questions"></div>
-    </div>`
+    <div class="pni-wizard-body"></div>`
   }
+  // Will initialize things and put wizard on the dom
   private initializeWizard(wizardContainer: Element, populateByContainer: boolean): void {
     if (populateByContainer) {
       this.removeRepetitiveElements();
     }
     wizardContainer.innerHTML = populateByContainer ? `<div class="pni-wizard active" id="pni-interactive-wizard">${this.getWizardContent()}</div>` : this.getWizardContent()
   }
+  // This will put question html in the body of wizard
   private addQuestionAnswerHtml(currentQuesIndex: number): string {
     let currentQuestion = this.questions[currentQuesIndex];
     let Choices = currentQuestion.Choices;
     let question = currentQuestion.Question;
-    let questionsHtml: string = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px'>
+    let questionsHtml: string = `<div class="pni-questions" style='text-align: center; margin-bottom: 10px' id='pni-question${currentQuesIndex}'>
         <div class="pni-question"> ${question}</div>
         <div style='text-align: right; margin-top: 10px'>
-        <select class="select-css" name="answerOptions${currentQuesIndex}" id="answerOptions${currentQuesIndex}">
+        <select class="pni-select-css" name="answerOptions${currentQuesIndex}" id="answerOptions${currentQuesIndex}">
         <option value="">Select</option>
         </div>
         `
-    for (let i = 0; i < Choices.length; i++) {
-      questionsHtml += `<option value="${Choices[i]}">${Choices[i]}</option>`
-      // questionsHtml += `<option value="${Choices[i].answerId}">${Choices[i].answerValue}</option>`
+    for (let choice of Choices) {
+      questionsHtml += `<option value="${choice}">${choice}</option>`
     }
     questionsHtml += `</select></div > `;
-
     return questionsHtml
   }
+  // Initializing the first question on wizard load
   private initializeFirstQuestion(): void {
     let questionsArea = document.querySelector('.pni-wizard-body');
     questionsArea.innerHTML = this.addQuestionAnswerHtml(0)
@@ -65,14 +68,23 @@ export class WizardFunctions {
     let wizard = document.getElementById('pni-interactive-wizard')
     return wizard && wizard.classList.contains('active');
   }
-  private handleOptionChange = (e, currentQuestionSequence) => {
+  // This will triger on chnaging or selecting choices to a question 
+  private handleOptionChange = (e, currentQuestionSequence: number) => {
     let currentQuestion = this.questions[currentQuestionSequence];
     let question = currentQuestion.Question;
-    if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {      
+    // For changing a value of new question
+    if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {
       this.showNextQuestion(currentQuestion.Sequence, e.target.value)
-      //TODO: JSS Temp
-      // window.parent.postMessage(["21e06c23-dc63-484e-9f4f-8abd01535508","b970f69d-8eaa-4e23-be00-317812dc39c0","9ce41a06-0e04-4362-ae92-0bff6fd21761","f0cc9dcc-12d5-4453-a699-bf46169f4027","efc52615-71ad-46e3-8367-1aa95f5ed2da","c0737b3a-772a-4f6e-a279-c1bf3b8ab435","239952ee-8156-46c4-aff6-7284bd862a54"], "https://satish0543.wixsite.com");
     }
+    // For changing a value of any previously answered question
+    else {
+      this.reevaluateQuestions(currentQuestionSequence);
+      this.currentQuestionIndex = this.questions.length;
+      this.showNextQuestion(currentQuestion.Sequence, e.target.value)
+      this.showHideResetButton();
+    }
+    // TODO:JSS Temp for Wix
+    window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
     let questionData = {
       eventType: 'user_answered_question',
       eventData: {
@@ -82,11 +94,8 @@ export class WizardFunctions {
     }
     window.pniTrackingEvent(questionData);
   }
-  private clearAllQuestions() {
-    let questionsArea = document.querySelector('.pni-wizard-body');
-    questionsArea.innerHTML = '';
-  }
-  private wizardPositioning(container) {
+  // If a client wants to set positioning of the wizard manually
+  private wizardPositioning(container: Element) {
     let topPosition = container.getAttribute("top")
     let rightPosition = container.getAttribute("right")
     // When both right and left positioning are present then right positioning will take precedence 
@@ -100,57 +109,78 @@ export class WizardFunctions {
     wizard.style.right = rightPosition
     wizard.style.left = leftPosition
   }
-  private queryParams = ''
-  private setQuestionsQuery(seq, answerValue){
-    let newQuery = String(seq) + '/' + String(answerValue)+ '/';
-    this.queryParams += newQuery;
+  //  When a user will change answer to an already answered question
+  private reevaluateQuestions = (questionSequence: number) => {
+    // Remove questions query params for already answered future questions based on users current selection
+    this.questionQueryList = this.questionQueryList.filter((query, i) => {
+      return i < questionSequence
+    })
+    // Remove html for already answered future questions based on users current selection
+    this.questions.forEach((ques, i) => {
+      if (i > questionSequence)
+        document.getElementById(`pni-question${i}`).remove();
+    })
+    // Remove already answered future questions from scope based on users current selection
+    this.questions = this.questions.filter((ques, i) => {
+      return i <= questionSequence
+    })
   }
-  async showNextQuestion(seq?, answerValue?) {
-    
-    if (this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length ) {
-      // clearAllQuestions()
-      this.setQuestionsQuery(seq, answerValue)
-      let ques = await fetch('https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/' + this.queryParams)
-      let newQuestions = await ques.json();
-      this.questions.push(newQuestions[0]);
-      window.parent.postMessage(newQuestions[0].Products, "https://satish0543.wixsite.com");
-
-      let questionsArea = document.querySelector('.pni-wizard-body');
-      let questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex)
-      questionsArea.insertAdjacentHTML("beforeend", questionHtml);
-      let currentQuesSequence = this.currentQuestionIndex
-      let selectId = `answerOptions${currentQuesSequence}`
-      document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
-      this.setCurrentQuestionIndex(this.currentQuestionIndex + 1)
+  // Set questions api query param based on user choices to questions
+  private setQuestionsQuery(questionSequence: number, answerValue: string) {
+    let query = '';
+    let newQuery = String(questionSequence) + '/' + String(answerValue) + '/';
+    this.questionQueryList.push(newQuery)
+    this.questionQueryList.forEach(q => {
+      query += q
+    })
+    this.questionsApiQueryParams = query
+  }
+  // Once a user will make a selection then an api will be called to fetch new question
+  private async setNewQuestion() {
+    let ques = await this.fetchWithQuery();
+    let newQuestion = await ques.json();
+    // check if new question is coming with some choices
+    if (newQuestion && newQuestion[0] && newQuestion[0].Choices.length >= 1) {
+      this.questions.push(newQuestion[0]);
+      return true
     }
+    return null;
   }
-  closeInteractiveWizard = () => {
-    let wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
-    wizardContainer.innerHTML = '';
+  private addResetButton = () => {
+    let questionsArea = document.querySelector('#pni-interactive-wizard');
+    let resetHtml = `<button id='pni-reset-button' class='pni-reset-button pni-color-theme' style="visibility: hidden;">Reset</button>`;
+    questionsArea.insertAdjacentHTML("beforeend", resetHtml);
   }
+  // This will populate wizard on the dom after initializing few properties
   private populateWizard = (wizardContainer: Element, populateByContainer: boolean) => {
     this.questionsApiRetryCount = 0;
-    this.setCurrentQuestionIndex(0);
+    this.currentQuestionIndex = 0;
     this.initializeWizard(wizardContainer, populateByContainer);
     this.initializeFirstQuestion();
-    this.setCurrentQuestionIndex(this.questions[0].Sequence)
+    this.currentQuestionIndex = this.questions[0].Sequence
+    this.addResetButton()
     // Setting positioning of wizard 
     let setPositioning = wizardContainer.getAttribute("positioning")
     if (setPositioning && setPositioning == 'true') {
       this.wizardPositioning(wizardContainer)
     }
+    // if client is populating wizard in a div
     if (!populateByContainer)
       wizardContainer.classList.add('active');
     // Added close wizard event listner
     document.getElementById("pni-wizard-closeBtn").addEventListener("click", this.closeInteractiveWizard);
+    document.getElementById("pni-reset-button").addEventListener("click", this.clearAllQuestions);
   }
+  // If a user will call our wizard dom element as an htmlElement and in a div then 
+  // Wizard as an htmlElement will take precedence and all div elements with id pni-interactive-wizard will be removed 
   private removeRepetitiveElements() {
     let repetitiveElements = document.querySelectorAll('[id=pni-interactive-wizard]');
-    for (let i = 0; i < repetitiveElements.length; i++) {
-      repetitiveElements[i].remove();
-    }
+    repetitiveElements.forEach(el => {
+      el.remove();
+    });
   }
-  interactiveWizard = () => {
+  // method to open wizard
+  openInteractiveWizard = () => {
     let wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
     let populateByContainer = wizardContainer ? true : false
     wizardContainer = wizardContainer ? wizardContainer : document.getElementById('pni-interactive-wizard');
@@ -159,12 +189,54 @@ export class WizardFunctions {
     if (wizardContainer && !this.isPniWizardOpen() && haveQuestions) {
       this.populateWizard(wizardContainer, populateByContainer)
     }
+    // Wizard will wait approx 7 seconds for the questions api to respond to display first question
     else if (!this.isPniWizardOpen() && !haveQuestions && this.questionsApiRetryCount < 30) {
-      console.log('Tried', this.questionsApiRetryCount)
       this.questionsApiRetryCount++
       setTimeout(() => {
-        this.interactiveWizard();
+        this.openInteractiveWizard();
       }, 250)
     }
+  }
+  private showHideResetButton() {
+    if (document.getElementById('pni-reset-button') && this.questions.length > 1)
+      document.getElementById('pni-reset-button').style.visibility = 'visible';
+    else if (document.getElementById('pni-reset-button'))
+      document.getElementById('pni-reset-button').style.visibility = 'hidden'
+  }
+  async showNextQuestion(questionSequence: number, answerValue: string) {
+    // first check if wizard is already open and current question is very recent
+    if (this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length && answerValue) {
+      this.setQuestionsQuery(questionSequence, answerValue);
+      // Fetch new question from api
+      let newQuestion = await this.setNewQuestion();
+      if (newQuestion) {
+        //TODO:JSS Temp
+        // window.parent.postMessage(newQuestion.Products, "https://satish0543.wixsite.com");
+        // Add/append html for new questions
+        let questionsArea = document.querySelector('.pni-wizard-body');
+        let questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex);
+        questionsArea.insertAdjacentHTML("beforeend", questionHtml);
+        let currentQuesSequence = this.currentQuestionIndex;
+        let selectId = `answerOptions${currentQuesSequence}`;
+        document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
+        this.currentQuestionIndex = this.currentQuestionIndex + 1
+        this.showHideResetButton();
+      }
+    }
+  }
+  private resetWizard = () => {
+    this.questions = [this.questions[0]];
+    this.questionQueryList = [];
+    this.showHideResetButton();
+  }
+  clearAllQuestions = () => {
+    this.resetWizard();
+    this.closeInteractiveWizard();
+    this.openInteractiveWizard();
+  }
+  closeInteractiveWizard = () => {
+    let wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
+    wizardContainer.innerHTML = '';
+    this.resetWizard();
   }
 }

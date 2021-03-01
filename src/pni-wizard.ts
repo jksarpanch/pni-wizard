@@ -8,12 +8,12 @@ export class PniWizard {
   }
 
   openInteractiveWizard = () => {
-    this.wf.interactiveWizard()
+    this.wf.openInteractiveWizard()
   }
   closeInteractiveWizard = () => {
     this.wf.closeInteractiveWizard()    
-  }
-  showNextQuestion = () => {
-    this.wf.showNextQuestion()
+  }  
+  resetInteractiveWizard = () => {
+    this.wf.clearAllQuestions()
   } 
 }

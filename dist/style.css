@@ -1,3 +1,7 @@
+:root {
+  --defaultTheme: #79b7db;
+  /* --white: #ffffff; */
+}
 .pni-wizard {
     position: fixed;
     width: 20%;
@@ -11,8 +15,7 @@
     border-radius: 17px;
     background-color: white;
     max-width: 40%;
-    transform: scale(0);
-    padding-bottom: 10px;
+    transform: scale(0);    
   }
   .pni-wizard.active {
       transform: scale(1);
@@ -69,11 +72,14 @@
     margin-top: 10px;
     float: right
   }
+  .pni-color-theme-background {
+    background-color: var(--defaultTheme);
+  }
   .pni-color-theme {
-    background-color: #79b7db;
+    color: var(--defaultTheme);
   }
 
-  .select-css {
+  .pni-select-css {
       display: inline;
       font-size: 12px;
       /* font-family: sans-serif; */
@@ -98,22 +104,46 @@
       background-size: .65em auto, 100%;
       /* float:right */
   }
-  .select-css::-ms-expand {
+  .pni-select-css::-ms-expand {
       display: none;
   }
-  .select-css:hover {
+  .pni-select-css:hover {
       border-color: #888;
   }
-  .select-css:focus {
+  .pni-select-css:focus {
       border-color: #aaa;
       box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
       box-shadow: 0 0 0 3px -moz-mac-focusring;
       color: #222;
       outline: none;
   }
-  .select-css option {
+  .pni-select-css option {
       font-weight:normal;
   }
-  
+  .pni-reset-button{
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    background-color: var(--defaultTheme);
+    border: none;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  /* .pni-reset-button:hover {background-color: #3e8e41} */
+  .pni-reset-button:active {
+    background-color: var(--defaultTheme);
+    transform: translateY(1px);
+  }
+  .pni-show-element{
+    visibility: visible;
+  }
+   .pni-hide-element{
+    visibility: hidden;
+  }
 
 /*# sourceMappingURL=style.css.map*/

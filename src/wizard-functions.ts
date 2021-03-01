@@ -84,7 +84,7 @@ export class WizardFunctions {
       this.showHideResetButton();
     }
     // TODO:JSS Temp for Wix
-    window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
+    window.parent.postMessage(this.questions[this.questions.length].Products, "https://satish0543.wixsite.com");
     let questionData = {
       eventType: 'user_answered_question',
       eventData: {

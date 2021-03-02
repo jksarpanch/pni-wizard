@@ -10,6 +10,7 @@ export class WizardFunctions {
   private defaultLeftPosition = 'unset';
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
   private questionQueryList: string[] = [];
+  private tracking: boolean = false;
 
   constructor() {
     this.fetchNFirstQuestion();
@@ -68,6 +69,18 @@ export class WizardFunctions {
     let wizard = document.getElementById('pni-interactive-wizard')
     return wizard && wizard.classList.contains('active');
   }
+  private triggerTrackingEvent(sequence_id: number, questionText: string, answerValue: string){
+    let questionData = {
+      eventType: 'user_answered_question',
+      eventData: {
+        sequence_id,
+        questionText, 
+        answerValue 
+      }
+    }
+    window.pniTrackingEvent(questionData);
+  }
+
   // This will triger on chnaging or selecting choices to a question 
   private handleOptionChange = (e, currentQuestionSequence: number) => {
     let currentQuestion = this.questions[currentQuestionSequence];
@@ -83,15 +96,9 @@ export class WizardFunctions {
       this.showNextQuestion(currentQuestion.Sequence, e.target.value)
       this.showHideResetButton();
     }    
-    let questionData = {
-      eventType: 'user_answered_question',
-      eventData: {
-        sequence_id: currentQuestionSequence,
-        questionText: question, 
-        answerValue: e.target.value 
-      }
-    }
-    window.pniTrackingEvent(questionData);
+    if(this.tracking){
+      this.triggerTrackingEvent(currentQuestionSequence, question, e.target.value)
+    }   
   }
   // If a client wants to set positioning of the wizard manually
   private wizardPositioning(container: Element) {
@@ -154,6 +161,15 @@ export class WizardFunctions {
     let resetHtml = `<button id='pni-reset-button' class='pni-reset-button pni-color-theme' style="visibility: hidden;">Reset</button>`;
     questionsArea.insertAdjacentHTML("beforeend", resetHtml);
   }
+  private positioningAndTracking(wizardContainer){
+    // Setting positioning of wizard 
+    let setPositioning = wizardContainer.getAttribute("positioning")
+    let tracking = wizardContainer.getAttribute("tracking")
+    if (setPositioning && setPositioning == 'true') {
+      this.wizardPositioning(wizardContainer)
+    }    
+    this.tracking = tracking && tracking == 'true' ? true: false
+  }
   // This will populate wizard on the dom after initializing few properties
   private populateWizard = (wizardContainer: Element, populateByContainer: boolean) => {
     this.questionsApiRetryCount = 0;
@@ -162,11 +178,7 @@ export class WizardFunctions {
     this.initializeFirstQuestion();
     this.currentQuestionIndex = this.questions[0].Sequence
     this.addResetButton()
-    // Setting positioning of wizard 
-    let setPositioning = wizardContainer.getAttribute("positioning")
-    if (setPositioning && setPositioning == 'true') {
-      this.wizardPositioning(wizardContainer)
-    }
+    this.positioningAndTracking(wizardContainer);
     // if client is populating wizard in a div
     if (!populateByContainer)
       wizardContainer.classList.add('active');

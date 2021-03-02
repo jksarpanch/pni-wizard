@@ -8,6 +8,7 @@ export declare class WizardFunctions {
     private defaultLeftPosition;
     private dynamicsQuestionApi;
     private questionQueryList;
+    private tracking;
     constructor();
     private fetchWithQuery;
     private fetchNFirstQuestion;
@@ -16,12 +17,14 @@ export declare class WizardFunctions {
     private addQuestionAnswerHtml;
     private initializeFirstQuestion;
     private isPniWizardOpen;
+    private triggerTrackingEvent;
     private handleOptionChange;
     private wizardPositioning;
     private reevaluateQuestions;
     private setQuestionsQuery;
     private setNewQuestion;
     private addResetButton;
+    private positioningAndTracking;
     private populateWizard;
     private removeRepetitiveElements;
     openInteractiveWizard: () => void;

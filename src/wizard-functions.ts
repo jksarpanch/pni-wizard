@@ -10,17 +10,21 @@ export class WizardFunctions {
   private defaultLeftPosition = 'unset';
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
   private questionQueryList: string[] = [];
+  private questionList: any[] = [];
   private tracking: boolean = false;
 
   constructor() {
-    this.fetchNFirstQuestion();
+    this.fetchFirstQuestion();
   }
   // Will make an api call to dynamic questions
-  private async fetchWithQuery() {
-    return await fetch(this.dynamicsQuestionApi + this.questionsApiQueryParams)
+  private async fetchNewQuestion() {
+    return await fetch(this.dynamicsQuestionApi,{
+      method: "POST", 
+      body: JSON.stringify(this.questionList)
+    })
   }
-  private async fetchNFirstQuestion() {
-    let ques = await this.fetchWithQuery()
+  private async fetchFirstQuestion() {
+    let ques = await fetch(this.dynamicsQuestionApi)
     let newQuestions = await ques.json();
     this.questions.push(newQuestions[0]);
   }
@@ -117,6 +121,10 @@ export class WizardFunctions {
   }
   //  When a user will change answer to an already answered question
   private reevaluateQuestions = (questionSequence: number) => {
+
+	this.questionList = this.questionList.filter((query, i) => {
+      return i < questionSequence
+    })
     // Remove questions query params for already answered future questions based on users current selection
     this.questionQueryList = this.questionQueryList.filter((query, i) => {
       return i < questionSequence
@@ -133,17 +141,19 @@ export class WizardFunctions {
   }
   // Set questions api query param based on user choices to questions
   private setQuestionsQuery(questionSequence: number, answerValue: string) {
-    let query = '';
-    let newQuery = String(questionSequence) + '/' + String(answerValue) + '/';
-    this.questionQueryList.push(newQuery)
-    this.questionQueryList.forEach(q => {
-      query += q
-    })
-    this.questionsApiQueryParams = query
+    this.questionList.push({sequence: questionSequence, choice: answerValue})
+    // let query = '';
+    // let newQuery = String(questionSequence) + '/' + String(answerValue) + '/';
+    // let newQuery = {sequence: questionSequence, choice: answerValue}
+    // this.questionQueryList.push(newQuery)
+    // this.questionQueryList.forEach(q => {
+    //   query += q
+    // })
+    // this.questionsApiQueryParams = query
   }
   // Once a user will make a selection then an api will be called to fetch new question
   private  setNewQuestion = async () => {
-    let ques = await this.fetchWithQuery();
+    let ques = await this.fetchNewQuestion();
     let newQuestion = await ques.json();
     // check if new question is coming with some choices
     //TODO:JSS Temp        
@@ -240,6 +250,10 @@ export class WizardFunctions {
     else if(this.isPniWizardOpen() && !answerValue){
       window.parent.postMessage(this.questions[this.questions.length-1].Products, "https://satish0543.wixsite.com");
     }
+							
+													   
+																													   
+		
   }
   private resetWizard = () => {
     this.questions = [this.questions[0]];

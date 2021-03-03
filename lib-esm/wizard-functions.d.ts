@@ -8,10 +8,11 @@ export declare class WizardFunctions {
     private defaultLeftPosition;
     private dynamicsQuestionApi;
     private questionQueryList;
+    private questionList;
     private tracking;
     constructor();
-    private fetchWithQuery;
-    private fetchNFirstQuestion;
+    private fetchNewQuestion;
+    private fetchFirstQuestion;
     private getWizardContent;
     private initializeWizard;
     private addQuestionAnswerHtml;

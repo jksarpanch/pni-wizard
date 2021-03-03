@@ -163,6 +163,7 @@ export class WizardFunctions {
       this.questions.push(newQuestion[0]);
       return true
     }
+    this.questionList.pop();
     this.questionQueryList.pop();
     return null;
   }
@@ -249,8 +250,7 @@ export class WizardFunctions {
     }
     else if(this.isPniWizardOpen() && !answerValue){
       window.parent.postMessage(this.questions[this.questions.length-1].Products, "https://satish0543.wixsite.com");
-    }
-							
+    }	
 													   
 																													   
 		
@@ -258,6 +258,7 @@ export class WizardFunctions {
   private resetWizard = () => {
     this.questions = [this.questions[0]];
     this.questionQueryList = [];
+    this.questionList =[];
     this.showHideResetButton();
   }
   clearAllQuestions = () => {

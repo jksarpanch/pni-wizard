@@ -94,6 +94,7 @@ var WizardFunctions = (function () {
                             this.questions.push(newQuestion[0]);
                             return [2, true];
                         }
+                        this.questionList.pop();
                         this.questionQueryList.pop();
                         return [2, null];
                 }
@@ -135,6 +136,7 @@ var WizardFunctions = (function () {
         this.resetWizard = function () {
             _this.questions = [_this.questions[0]];
             _this.questionQueryList = [];
+            _this.questionList = [];
             _this.showHideResetButton();
         };
         this.clearAllQuestions = function () {

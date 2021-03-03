@@ -40,12 +40,10 @@ var WizardFunctions = (function () {
         this.currentQuestionIndex = 0;
         this.questionsApiRetryCount = 0;
         this.questions = [];
-        this.questionsApiQueryParams = '';
         this.defaultTopPosition = '25%';
         this.defaultRightPosition = '2%';
         this.defaultLeftPosition = 'unset';
         this.dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
-        this.questionQueryList = [];
         this.questionList = [];
         this.tracking = false;
         this.handleOptionChange = function (e, currentQuestionSequence) {
@@ -66,9 +64,6 @@ var WizardFunctions = (function () {
         };
         this.reevaluateQuestions = function (questionSequence) {
             _this.questionList = _this.questionList.filter(function (query, i) {
-                return i < questionSequence;
-            });
-            _this.questionQueryList = _this.questionQueryList.filter(function (query, i) {
                 return i < questionSequence;
             });
             _this.questions.forEach(function (ques, i) {
@@ -95,7 +90,6 @@ var WizardFunctions = (function () {
                             return [2, true];
                         }
                         this.questionList.pop();
-                        this.questionQueryList.pop();
                         return [2, null];
                 }
             });
@@ -135,7 +129,6 @@ var WizardFunctions = (function () {
         };
         this.resetWizard = function () {
             _this.questions = [_this.questions[0]];
-            _this.questionQueryList = [];
             _this.questionList = [];
             _this.showHideResetButton();
         };

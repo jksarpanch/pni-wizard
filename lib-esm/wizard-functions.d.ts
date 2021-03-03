@@ -2,12 +2,10 @@ export declare class WizardFunctions {
     private currentQuestionIndex;
     private questionsApiRetryCount;
     private questions;
-    private questionsApiQueryParams;
     private defaultTopPosition;
     private defaultRightPosition;
     private defaultLeftPosition;
     private dynamicsQuestionApi;
-    private questionQueryList;
     private questionList;
     private tracking;
     constructor();

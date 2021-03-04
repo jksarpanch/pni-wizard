@@ -23,12 +23,12 @@ export declare class WizardFunctions {
     private setQuestionsQuery;
     private setNewQuestion;
     private addResetButton;
-    private positioningAndTracking;
+    private configuringWizard;
     private populateWizard;
     private removeRepetitiveElements;
     openInteractiveWizard: () => void;
     private showHideResetButton;
-    showNextQuestion(questionSequence: number, answerValue: string): Promise<void>;
+    private showNextQuestion;
     private resetWizard;
     clearAllQuestions: () => void;
     closeInteractiveWizard: () => void;

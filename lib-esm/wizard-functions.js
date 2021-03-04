@@ -34,6 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+;
+;
 var WizardFunctions = (function () {
     function WizardFunctions() {
         var _this = this;
@@ -49,7 +51,7 @@ var WizardFunctions = (function () {
         this.handleOptionChange = function (e, currentQuestionSequence) {
             var currentQuestion = _this.questions[currentQuestionSequence];
             var question = currentQuestion.Question;
-            if (parseInt(currentQuestion.Sequence) == _this.currentQuestionIndex) {
+            if (currentQuestion.Sequence == _this.currentQuestionIndex) {
                 _this.showNextQuestion(currentQuestion.Sequence, e.target.value);
             }
             else {
@@ -106,7 +108,7 @@ var WizardFunctions = (function () {
             _this.initializeFirstQuestion();
             _this.currentQuestionIndex = _this.questions[0].Sequence;
             _this.addResetButton();
-            _this.positioningAndTracking(wizardContainer);
+            _this.configuringWizard(wizardContainer);
             if (!populateByContainer)
                 wizardContainer.classList.add('active');
             document.getElementById("pni-wizard-closeBtn").addEventListener("click", _this.closeInteractiveWizard);
@@ -218,10 +220,8 @@ var WizardFunctions = (function () {
         };
         window.pniTrackingEvent(questionData);
     };
-    WizardFunctions.prototype.wizardPositioning = function (container) {
-        var topPosition = container.getAttribute("top");
-        var rightPosition = container.getAttribute("right");
-        var leftPosition = rightPosition ? this.defaultLeftPosition : container.getAttribute("left");
+    WizardFunctions.prototype.wizardPositioning = function (topPosition, rightPosition, leftPosition) {
+        leftPosition = rightPosition ? this.defaultLeftPosition : leftPosition;
         var wizard = document.getElementById('pni-interactive-wizard');
         topPosition = topPosition ? topPosition : this.defaultTopPosition;
         rightPosition = rightPosition ? rightPosition : this.defaultRightPosition;
@@ -233,13 +233,13 @@ var WizardFunctions = (function () {
     WizardFunctions.prototype.setQuestionsQuery = function (questionSequence, answerValue) {
         this.questionList.push({ sequence: questionSequence, choice: answerValue });
     };
-    WizardFunctions.prototype.positioningAndTracking = function (wizardContainer) {
+    WizardFunctions.prototype.configuringWizard = function (wizardContainer) {
         var setPositioning = wizardContainer.getAttribute("positioning");
-        var tracking = wizardContainer.getAttribute("tracking");
-        if (setPositioning && setPositioning == 'true') {
-            this.wizardPositioning(wizardContainer);
-        }
-        this.tracking = tracking && tracking == 'true' ? true : false;
+        this.tracking = wizardContainer.getAttribute("tracking") && wizardContainer.getAttribute("tracking") == 'true' ? true : false;
+        if (setPositioning && setPositioning == 'true')
+            this.wizardPositioning(wizardContainer.getAttribute("top"), wizardContainer.getAttribute("right"), wizardContainer.getAttribute("left"));
+        if (wizardContainer.getAttribute("color"))
+            document.documentElement.style.setProperty('--defaultTheme', wizardContainer.getAttribute("color"));
     };
     WizardFunctions.prototype.removeRepetitiveElements = function () {
         var repetitiveElements = document.querySelectorAll('[id=pni-interactive-wizard]');

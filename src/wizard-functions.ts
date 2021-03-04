@@ -1,14 +1,24 @@
 declare var window;
+interface IQuestionList {
+  sequence: number;
+  choice: string;
+};
+interface IQuestion {
+  Choices: string[];
+  Question: string;
+  Sequence: number;
+  Products?: string[];
+};
 
 export class WizardFunctions {
   private currentQuestionIndex: number = 0;
   private questionsApiRetryCount = 0;
-  private questions = [];
+  private questions: IQuestion[] = [];
   private defaultTopPosition = '25%';
   private defaultRightPosition = '2%';
   private defaultLeftPosition = 'unset';
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
-  private questionList: any[] = [];
+  private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
   constructor() {
     this.fetchFirstQuestion();
@@ -87,7 +97,7 @@ export class WizardFunctions {
     let currentQuestion = this.questions[currentQuestionSequence];
     let question = currentQuestion.Question;
     // For changing a value of new question
-    if (parseInt(currentQuestion.Sequence) == this.currentQuestionIndex) {
+    if (currentQuestion.Sequence == this.currentQuestionIndex) {
       this.showNextQuestion(currentQuestion.Sequence, e.target.value);
     }
     // For changing a value of any previously answered question
@@ -102,11 +112,9 @@ export class WizardFunctions {
     }
   }
   // If a client wants to set positioning of the wizard manually
-  private wizardPositioning(container: Element) {
-    let topPosition = container.getAttribute("top");
-    let rightPosition = container.getAttribute("right");
+  private wizardPositioning(topPosition: string, rightPosition: string, leftPosition: string) {
     // When both right and left positioning are present then right positioning will take precedence 
-    let leftPosition = rightPosition ? this.defaultLeftPosition : container.getAttribute("left");
+    leftPosition = rightPosition ? this.defaultLeftPosition : leftPosition;
 
     let wizard = document.getElementById('pni-interactive-wizard');
     topPosition = topPosition ? topPosition : this.defaultTopPosition;
@@ -126,7 +134,7 @@ export class WizardFunctions {
     this.questions.forEach((ques, i) => {
       if (i > questionSequence)
         document.getElementById(`pni-question${i}`).remove();
-    })
+    });
     // Remove already answered future questions from scope based on users current selection
     this.questions = this.questions.filter((ques, i) => {
       return i <= questionSequence
@@ -146,7 +154,7 @@ export class WizardFunctions {
     // check if new question is coming with some choices or is null
     if (newQuestion && newQuestion[0] && newQuestion[0].Choices.length >= 1) {
       this.questions.push(newQuestion[0]);
-      return true
+      return true;
     }
     this.questionList.pop();
     return null;
@@ -156,14 +164,14 @@ export class WizardFunctions {
     let resetHtml = `<button id='pni-reset-button' class='pni-reset-button pni-color-theme' style="visibility: hidden;">Reset</button>`;
     questionsArea.insertAdjacentHTML("beforeend", resetHtml);
   }
-  private positioningAndTracking(wizardContainer) {
+  private configuringWizard(wizardContainer: Element) {
     // Setting positioning of wizard 
-    let setPositioning = wizardContainer.getAttribute("positioning")
-    let tracking = wizardContainer.getAttribute("tracking")
-    if (setPositioning && setPositioning == 'true') {
-      this.wizardPositioning(wizardContainer)
-    }
-    this.tracking = tracking && tracking == 'true' ? true : false;
+    let setPositioning = wizardContainer.getAttribute("positioning");
+    this.tracking = wizardContainer.getAttribute("tracking") && wizardContainer.getAttribute("tracking") == 'true' ? true : false;
+    if (setPositioning && setPositioning == 'true')
+      this.wizardPositioning(wizardContainer.getAttribute("top"), wizardContainer.getAttribute("right"), wizardContainer.getAttribute("left"));
+    if (wizardContainer.getAttribute("color"))
+      document.documentElement.style.setProperty('--defaultTheme', wizardContainer.getAttribute("color"));
   }
   // This will populate wizard on the dom after initializing few properties
   private populateWizard = (wizardContainer: Element, populateByContainer: boolean) => {
@@ -173,7 +181,7 @@ export class WizardFunctions {
     this.initializeFirstQuestion();
     this.currentQuestionIndex = this.questions[0].Sequence;
     this.addResetButton();
-    this.positioningAndTracking(wizardContainer);
+    this.configuringWizard(wizardContainer);
     // if client is populating wizard in a div
     if (!populateByContainer)
       wizardContainer.classList.add('active');
@@ -195,13 +203,13 @@ export class WizardFunctions {
     let populateByContainer = wizardContainer ? true : false;
     wizardContainer = wizardContainer ? wizardContainer : document.getElementById('pni-interactive-wizard');
 
-    let haveQuestions = this.questions && this.questions.length >= 1
+    let haveQuestions = this.questions && this.questions.length >= 1;
     if (wizardContainer && !this.isPniWizardOpen() && haveQuestions) {
       this.populateWizard(wizardContainer, populateByContainer);
     }
     // Wizard will wait approx 7 seconds for the questions api to respond to display first question
     else if (!this.isPniWizardOpen() && !haveQuestions && this.questionsApiRetryCount < 30) {
-      this.questionsApiRetryCount++
+      this.questionsApiRetryCount++;
       setTimeout(() => {
         this.openInteractiveWizard();
       }, 250)
@@ -213,7 +221,7 @@ export class WizardFunctions {
     else if (document.getElementById('pni-reset-button'))
       document.getElementById('pni-reset-button').style.visibility = 'hidden';
   }
-  async showNextQuestion(questionSequence: number, answerValue: string) {
+  private async showNextQuestion(questionSequence: number, answerValue: string) {
     // first check if wizard is already open and current question is very recent
     if (this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length && answerValue) {
       this.setQuestionsQuery(questionSequence, answerValue);

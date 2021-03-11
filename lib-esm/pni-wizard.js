@@ -12,9 +12,6 @@ var PniWizard = (function () {
         this.resetInteractiveWizard = function () {
             _this.wf.clearAllQuestions();
         };
-        this.injectImages = function () {
-            _this.wf.injectImages();
-        };
         this.wf = new WizardFunctions();
     }
     PniWizard.prototype.displayProducts = function (ids) { };

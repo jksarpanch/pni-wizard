@@ -16,8 +16,8 @@ export class PniWizard {
   resetInteractiveWizard = () => {
     this.wf.clearAllQuestions()
   } 
-  injectImages = () =>{
-    this.wf.injectImages();
-  }
+  // injectImages = () =>{
+  //   this.wf.injectImages();
+  // }
   public displayProducts(ids:string[]){};
 }

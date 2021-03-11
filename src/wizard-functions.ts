@@ -240,7 +240,7 @@ export class WizardFunctions {
         document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
         this.currentQuestionIndex = this.currentQuestionIndex + 1;
         this.showHideResetButton();
-        // super.displayProducts(this.questions[this.questions.length-1].Products)
+        this.displayProducts(this.questions[this.questions.length-1].Products)
       }
     }
 

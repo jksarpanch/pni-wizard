@@ -149,6 +149,7 @@ var WizardFunctions = (function () {
                             document.getElementById(selectId).addEventListener("change", function (e) { return _this.handleOptionChange(e, currentQuesSequence_1); });
                             this.currentQuestionIndex = this.currentQuestionIndex + 1;
                             this.showHideResetButton();
+                            this.displayProducts(this.questions[this.questions.length - 1].Products);
                         }
                         return [3, 3];
                     case 2:

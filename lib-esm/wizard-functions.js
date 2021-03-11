@@ -87,7 +87,6 @@ var WizardFunctions = (function () {
                         return [4, ques.json()];
                     case 2:
                         newQuestion = _a.sent();
-                        window.parent.postMessage(newQuestion[0].Products, "https://satish0543.wixsite.com");
                         if (newQuestion && newQuestion[0] && newQuestion[0].Choices.length >= 1) {
                             this.questions.push(newQuestion[0]);
                             return [2, true];
@@ -154,7 +153,6 @@ var WizardFunctions = (function () {
                         return [3, 3];
                     case 2:
                         if (this.isPniWizardOpen() && !answerValue) {
-                            window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
                         }
                         _a.label = 3;
                     case 3: return [2];
@@ -170,7 +168,6 @@ var WizardFunctions = (function () {
             _this.resetWizard();
             _this.closeInteractiveWizard();
             _this.openInteractiveWizard();
-            window.parent.postMessage(undefined, "https://satish0543.wixsite.com");
         };
         this.closeInteractiveWizard = function () {
             var wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];

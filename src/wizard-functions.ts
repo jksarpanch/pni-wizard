@@ -152,7 +152,7 @@ export class WizardFunctions {
     let ques = await this.fetchNewQuestion();
     let newQuestion = await ques.json();
     //TODO:JSS Temp for wix
-    window.parent.postMessage(newQuestion[0].Products, "https://satish0543.wixsite.com");
+    // window.parent.postMessage(newQuestion[0].Products, "https://satish0543.wixsite.com");
 
     // check if new question is coming with some choices or is null
     if (newQuestion && newQuestion[0] && newQuestion[0].Choices.length >= 1) {
@@ -245,7 +245,8 @@ export class WizardFunctions {
     }
 
     else if (this.isPniWizardOpen() && !answerValue) {
-      window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
+      //TODO:JSS Temp for wix
+      // window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
     }
   }
   private resetWizard = () => {
@@ -257,8 +258,8 @@ export class WizardFunctions {
     this.resetWizard();
     this.closeInteractiveWizard();
     this.openInteractiveWizard();
-    // TODO:JSS temp only for wix
-    window.parent.postMessage(undefined, "https://satish0543.wixsite.com");
+    //TODO:JSS Temp for wix
+    // window.parent.postMessage(undefined, "https://satish0543.wixsite.com");
   }
   closeInteractiveWizard = () => {
     let wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];

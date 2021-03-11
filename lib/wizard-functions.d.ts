@@ -32,4 +32,5 @@ export declare class WizardFunctions {
     private resetWizard;
     clearAllQuestions: () => void;
     closeInteractiveWizard: () => void;
+    injectImages(): void;
 }

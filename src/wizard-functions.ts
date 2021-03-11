@@ -261,4 +261,17 @@ export class WizardFunctions {
     wizardContainer.innerHTML = '';
     this.resetWizard();
   }
+
+  injectImages(){
+    let imageWrapper = `<div class="wrapper">
+    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>  
+  </div>`
+  let questionsArea = document.querySelector('.pni-wizard-body');
+  questionsArea.insertAdjacentHTML("beforeend", imageWrapper);
+  }
+
 }

@@ -1,5 +1,5 @@
 import { PniWizard } from './pni-wizard'
 let wizard = new PniWizard()
-let {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard} = wizard
+let {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, onNextQuestion} = wizard
 
-export {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard} 
+export {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, onNextQuestion} 

@@ -16,4 +16,8 @@ export class PniWizard {
   resetInteractiveWizard = () => {
     this.wf.clearAllQuestions()
   } 
+  injectImages = () =>{
+    this.wf.injectImages();
+  }
+  onNextQuestion: ()=>{};
 }

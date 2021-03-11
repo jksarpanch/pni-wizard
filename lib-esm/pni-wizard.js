@@ -10,7 +10,7 @@ var PniWizard = (function () {
             _this.wf.closeInteractiveWizard();
         };
         this.resetInteractiveWizard = function () {
-            _this.wf.clearAllQuestions();
+            _this.wf.resetInteractiveWizard();
         };
         this.wf = new WizardFunctions();
     }

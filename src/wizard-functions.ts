@@ -1,5 +1,5 @@
-import { PniWizard } from "./pni-wizard";
-
+// import { PniWizard } from "./pni-wizard";
+import './style.css';
 declare var window;
 interface IQuestionList {
   sequence: number;
@@ -190,7 +190,7 @@ export class WizardFunctions {
       wizardContainer.classList.add('active');
     // Added close wizard event listner
     document.getElementById("pni-wizard-closeBtn").addEventListener("click", this.closeInteractiveWizard);
-    document.getElementById("pni-reset-button").addEventListener("click", this.clearAllQuestions);
+    document.getElementById("pni-reset-button").addEventListener("click", this.resetInteractiveWizard);
   }
   // If a user will call our wizard dom element as an htmlElement and in a div then 
   // Wizard as an htmlElement will take precedence and all div elements with id pni-interactive-wizard will be removed 
@@ -253,7 +253,7 @@ export class WizardFunctions {
     this.questionList = [];
     this.showHideResetButton();
   }
-  clearAllQuestions = () => {
+  resetInteractiveWizard = () => {
     this.resetWizard();
     this.closeInteractiveWizard();
     this.openInteractiveWizard();
@@ -265,7 +265,7 @@ export class WizardFunctions {
     wizardContainer.innerHTML = '';
     this.resetWizard();
   }
-
+  displayProducts(ids:string[]){};
   // injectImages(){
   //   let imageWrapper = `<div class="wrapper">
   //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>

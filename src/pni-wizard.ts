@@ -14,10 +14,10 @@ export class PniWizard {
     this.wf.closeInteractiveWizard()    
   }  
   resetInteractiveWizard = () => {
-    this.wf.clearAllQuestions()
+    this.wf.resetInteractiveWizard()
   } 
   // injectImages = () =>{
   //   this.wf.injectImages();
   // }
-  public displayProducts(ids:string[]){};
+  displayProducts(ids:string[]){};
 }

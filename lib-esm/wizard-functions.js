@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import './style.css';
 ;
 ;
 var WizardFunctions = (function () {
@@ -112,7 +113,7 @@ var WizardFunctions = (function () {
             if (!populateByContainer)
                 wizardContainer.classList.add('active');
             document.getElementById("pni-wizard-closeBtn").addEventListener("click", _this.closeInteractiveWizard);
-            document.getElementById("pni-reset-button").addEventListener("click", _this.clearAllQuestions);
+            document.getElementById("pni-reset-button").addEventListener("click", _this.resetInteractiveWizard);
         };
         this.openInteractiveWizard = function () {
             var wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
@@ -165,7 +166,7 @@ var WizardFunctions = (function () {
             _this.questionList = [];
             _this.showHideResetButton();
         };
-        this.clearAllQuestions = function () {
+        this.resetInteractiveWizard = function () {
             _this.resetWizard();
             _this.closeInteractiveWizard();
             _this.openInteractiveWizard();
@@ -284,6 +285,8 @@ var WizardFunctions = (function () {
         else if (document.getElementById('pni-reset-button'))
             document.getElementById('pni-reset-button').style.visibility = 'hidden';
     };
+    WizardFunctions.prototype.displayProducts = function (ids) { };
+    ;
     return WizardFunctions;
 }());
 export { WizardFunctions };

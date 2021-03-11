@@ -1,3 +1,4 @@
+import './style.css';
 export declare class WizardFunctions {
     private currentQuestionIndex;
     private questionsApiRetryCount;
@@ -30,6 +31,7 @@ export declare class WizardFunctions {
     private showHideResetButton;
     private showNextQuestion;
     private resetWizard;
-    clearAllQuestions: () => void;
+    resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;
+    displayProducts(ids: string[]): void;
 }

@@ -1,5 +1,5 @@
-import { PniWizard } from './pni-wizard';
-var wizard = new PniWizard();
-var openInteractiveWizard = wizard.openInteractiveWizard, closeInteractiveWizard = wizard.closeInteractiveWizard, resetInteractiveWizard = wizard.resetInteractiveWizard, displayProducts = wizard.displayProducts;
+import { WizardFunctions } from './wizard-functions';
+var wizard2 = new WizardFunctions();
+var openInteractiveWizard = wizard2.openInteractiveWizard, closeInteractiveWizard = wizard2.closeInteractiveWizard, resetInteractiveWizard = wizard2.resetInteractiveWizard, displayProducts = wizard2.displayProducts;
 export { openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts };
 //# sourceMappingURL=index.js.map

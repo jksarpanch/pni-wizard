@@ -1,5 +1,9 @@
-import { PniWizard } from './pni-wizard'
-let wizard = new PniWizard()
-let {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts} = wizard
+// import { PniWizard } from './pni-wizard'
+import { WizardFunctions } from './wizard-functions'
+
+// let wizard = new PniWizard()
+let wizard2 = new WizardFunctions()
+// let {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts} = wizard
+let {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts} = wizard2
 
 export {openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts} 

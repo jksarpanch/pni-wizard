@@ -12,7 +12,7 @@ interface IQuestion {
   Products?: string[];
 };
 
-export class WizardFunctions  extends PniWizard{
+export class WizardFunctions {
   private currentQuestionIndex: number = 0;
   private questionsApiRetryCount = 0;
   private questions: IQuestion[] = [];
@@ -23,7 +23,7 @@ export class WizardFunctions  extends PniWizard{
   private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
   constructor() {
-    super();
+    // super();
     this.fetchFirstQuestion();
   }
   // Will make an api call to dynamic questions
@@ -240,7 +240,7 @@ export class WizardFunctions  extends PniWizard{
         document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
         this.currentQuestionIndex = this.currentQuestionIndex + 1;
         this.showHideResetButton();
-        super.displayProducts(this.questions[this.questions.length-1].Products)
+        // super.displayProducts(this.questions[this.questions.length-1].Products)
       }
     }
 

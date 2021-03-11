@@ -1,5 +1,4 @@
-import { PniWizard } from "./pni-wizard";
-export declare class WizardFunctions extends PniWizard {
+export declare class WizardFunctions {
     private currentQuestionIndex;
     private questionsApiRetryCount;
     private questions;

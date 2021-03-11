@@ -1,3 +1,5 @@
+import { PniWizard } from "./pni-wizard";
+
 declare var window;
 interface IQuestionList {
   sequence: number;
@@ -10,7 +12,7 @@ interface IQuestion {
   Products?: string[];
 };
 
-export class WizardFunctions {
+export class WizardFunctions  extends PniWizard{
   private currentQuestionIndex: number = 0;
   private questionsApiRetryCount = 0;
   private questions: IQuestion[] = [];
@@ -21,6 +23,7 @@ export class WizardFunctions {
   private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
   constructor() {
+    super();
     this.fetchFirstQuestion();
   }
   // Will make an api call to dynamic questions
@@ -221,7 +224,7 @@ export class WizardFunctions {
     else if (document.getElementById('pni-reset-button'))
       document.getElementById('pni-reset-button').style.visibility = 'hidden';
   }
-  private async showNextQuestion(questionSequence: number, answerValue: string) {
+  private  showNextQuestion = async(questionSequence: number, answerValue: string) =>{
     // first check if wizard is already open and current question is very recent
     if (this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length && answerValue) {
       this.setQuestionsQuery(questionSequence, answerValue);
@@ -237,6 +240,7 @@ export class WizardFunctions {
         document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
         this.currentQuestionIndex = this.currentQuestionIndex + 1;
         this.showHideResetButton();
+        super.displayProducts(this.questions[this.questions.length-1].Products)
       }
     }
 
@@ -262,16 +266,16 @@ export class WizardFunctions {
     this.resetWizard();
   }
 
-  injectImages(){
-    let imageWrapper = `<div class="wrapper">
-    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
-    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
-    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
-    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
-    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>  
-  </div>`
-  let questionsArea = document.querySelector('.pni-wizard-body');
-  questionsArea.insertAdjacentHTML("beforeend", imageWrapper);
-  }
+  // injectImages(){
+  //   let imageWrapper = `<div class="wrapper">
+  //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+  //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+  //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+  //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+  //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>  
+  // </div>`
+  // let questionsArea = document.querySelector('.pni-wizard-body');
+  // questionsArea.insertAdjacentHTML("beforeend", imageWrapper);
+  // }
 
 }

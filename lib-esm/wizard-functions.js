@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,21 +47,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { PniWizard } from "./pni-wizard";
 ;
 ;
-var WizardFunctions = (function () {
+var WizardFunctions = (function (_super) {
+    __extends(WizardFunctions, _super);
     function WizardFunctions() {
-        var _this = this;
-        this.currentQuestionIndex = 0;
-        this.questionsApiRetryCount = 0;
-        this.questions = [];
-        this.defaultTopPosition = '25%';
-        this.defaultRightPosition = '2%';
-        this.defaultLeftPosition = 'unset';
-        this.dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
-        this.questionList = [];
-        this.tracking = false;
-        this.handleOptionChange = function (e, currentQuestionSequence) {
+        var _this = _super.call(this) || this;
+        _this.currentQuestionIndex = 0;
+        _this.questionsApiRetryCount = 0;
+        _this.questions = [];
+        _this.defaultTopPosition = '25%';
+        _this.defaultRightPosition = '2%';
+        _this.defaultLeftPosition = 'unset';
+        _this.dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
+        _this.questionList = [];
+        _this.tracking = false;
+        _this.handleOptionChange = function (e, currentQuestionSequence) {
             var currentQuestion = _this.questions[currentQuestionSequence];
             var question = currentQuestion.Question;
             if (currentQuestion.Sequence == _this.currentQuestionIndex) {
@@ -64,7 +79,7 @@ var WizardFunctions = (function () {
                 _this.triggerTrackingEvent(currentQuestionSequence, question, e.target.value);
             }
         };
-        this.reevaluateQuestions = function (questionSequence) {
+        _this.reevaluateQuestions = function (questionSequence) {
             _this.questionList = _this.questionList.filter(function (query, i) {
                 return i < questionSequence;
             });
@@ -76,7 +91,7 @@ var WizardFunctions = (function () {
                 return i <= questionSequence;
             });
         };
-        this.setNewQuestion = function () { return __awaiter(_this, void 0, void 0, function () {
+        _this.setNewQuestion = function () { return __awaiter(_this, void 0, void 0, function () {
             var ques, newQuestion;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -96,12 +111,12 @@ var WizardFunctions = (function () {
                 }
             });
         }); };
-        this.addResetButton = function () {
+        _this.addResetButton = function () {
             var questionsArea = document.querySelector('#pni-interactive-wizard');
             var resetHtml = "<button id='pni-reset-button' class='pni-reset-button pni-color-theme' style=\"visibility: hidden;\">Reset</button>";
             questionsArea.insertAdjacentHTML("beforeend", resetHtml);
         };
-        this.populateWizard = function (wizardContainer, populateByContainer) {
+        _this.populateWizard = function (wizardContainer, populateByContainer) {
             _this.questionsApiRetryCount = 0;
             _this.currentQuestionIndex = 0;
             _this.initializeWizard(wizardContainer, populateByContainer);
@@ -114,7 +129,7 @@ var WizardFunctions = (function () {
             document.getElementById("pni-wizard-closeBtn").addEventListener("click", _this.closeInteractiveWizard);
             document.getElementById("pni-reset-button").addEventListener("click", _this.clearAllQuestions);
         };
-        this.openInteractiveWizard = function () {
+        _this.openInteractiveWizard = function () {
             var wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
             var populateByContainer = wizardContainer ? true : false;
             wizardContainer = wizardContainer ? wizardContainer : document.getElementById('pni-interactive-wizard');
@@ -129,23 +144,56 @@ var WizardFunctions = (function () {
                 }, 250);
             }
         };
-        this.resetWizard = function () {
+        _this.showNextQuestion = function (questionSequence, answerValue) { return __awaiter(_this, void 0, void 0, function () {
+            var newQuestion, questionsArea, questionHtml, currentQuesSequence_1, selectId;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length && answerValue)) return [3, 2];
+                        this.setQuestionsQuery(questionSequence, answerValue);
+                        return [4, this.setNewQuestion()];
+                    case 1:
+                        newQuestion = _a.sent();
+                        if (newQuestion) {
+                            questionsArea = document.querySelector('.pni-wizard-body');
+                            questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex);
+                            questionsArea.insertAdjacentHTML("beforeend", questionHtml);
+                            currentQuesSequence_1 = this.currentQuestionIndex;
+                            selectId = "answerOptions" + currentQuesSequence_1;
+                            document.getElementById(selectId).addEventListener("change", function (e) { return _this.handleOptionChange(e, currentQuesSequence_1); });
+                            this.currentQuestionIndex = this.currentQuestionIndex + 1;
+                            this.showHideResetButton();
+                            _super.prototype.displayProducts.call(this, this.questions[this.questions.length - 1].Products);
+                        }
+                        return [3, 3];
+                    case 2:
+                        if (this.isPniWizardOpen() && !answerValue) {
+                            window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
+                        }
+                        _a.label = 3;
+                    case 3: return [2];
+                }
+            });
+        }); };
+        _this.resetWizard = function () {
             _this.questions = [_this.questions[0]];
             _this.questionList = [];
             _this.showHideResetButton();
         };
-        this.clearAllQuestions = function () {
+        _this.clearAllQuestions = function () {
             _this.resetWizard();
             _this.closeInteractiveWizard();
             _this.openInteractiveWizard();
             window.parent.postMessage(undefined, "https://satish0543.wixsite.com");
         };
-        this.closeInteractiveWizard = function () {
+        _this.closeInteractiveWizard = function () {
             var wizardContainer = document.getElementsByTagName("Analytics-Wizard")[0];
             wizardContainer.innerHTML = '';
             _this.resetWizard();
         };
-        this.fetchFirstQuestion();
+        _this.fetchFirstQuestion();
+        return _this;
     }
     WizardFunctions.prototype.fetchNewQuestion = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -253,45 +301,7 @@ var WizardFunctions = (function () {
         else if (document.getElementById('pni-reset-button'))
             document.getElementById('pni-reset-button').style.visibility = 'hidden';
     };
-    WizardFunctions.prototype.showNextQuestion = function (questionSequence, answerValue) {
-        return __awaiter(this, void 0, void 0, function () {
-            var newQuestion, questionsArea, questionHtml, currentQuesSequence_1, selectId;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this.isPniWizardOpen() && this.currentQuestionIndex == this.questions.length && answerValue)) return [3, 2];
-                        this.setQuestionsQuery(questionSequence, answerValue);
-                        return [4, this.setNewQuestion()];
-                    case 1:
-                        newQuestion = _a.sent();
-                        if (newQuestion) {
-                            questionsArea = document.querySelector('.pni-wizard-body');
-                            questionHtml = this.addQuestionAnswerHtml(this.currentQuestionIndex);
-                            questionsArea.insertAdjacentHTML("beforeend", questionHtml);
-                            currentQuesSequence_1 = this.currentQuestionIndex;
-                            selectId = "answerOptions" + currentQuesSequence_1;
-                            document.getElementById(selectId).addEventListener("change", function (e) { return _this.handleOptionChange(e, currentQuesSequence_1); });
-                            this.currentQuestionIndex = this.currentQuestionIndex + 1;
-                            this.showHideResetButton();
-                        }
-                        return [3, 3];
-                    case 2:
-                        if (this.isPniWizardOpen() && !answerValue) {
-                            window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
-                        }
-                        _a.label = 3;
-                    case 3: return [2];
-                }
-            });
-        });
-    };
-    WizardFunctions.prototype.injectImages = function () {
-        var imageWrapper = "<div class=\"wrapper\">\n    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>\n    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>\n    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>\n    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>\n    <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>  \n  </div>";
-        var questionsArea = document.querySelector('.pni-wizard-body');
-        questionsArea.insertAdjacentHTML("beforeend", imageWrapper);
-    };
     return WizardFunctions;
-}());
+}(PniWizard));
 export { WizardFunctions };
 //# sourceMappingURL=wizard-functions.js.map

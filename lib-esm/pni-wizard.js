@@ -17,6 +17,8 @@ var PniWizard = (function () {
         };
         this.wf = new WizardFunctions();
     }
+    PniWizard.prototype.displayProducts = function (ids) { };
+    ;
     return PniWizard;
 }());
 export { PniWizard };

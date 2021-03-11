@@ -1,4 +1,5 @@
-export declare class WizardFunctions {
+import { PniWizard } from "./pni-wizard";
+export declare class WizardFunctions extends PniWizard {
     private currentQuestionIndex;
     private questionsApiRetryCount;
     private questions;
@@ -32,5 +33,4 @@ export declare class WizardFunctions {
     private resetWizard;
     clearAllQuestions: () => void;
     closeInteractiveWizard: () => void;
-    injectImages(): void;
 }

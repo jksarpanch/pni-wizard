@@ -19,5 +19,5 @@ export class PniWizard {
   injectImages = () =>{
     this.wf.injectImages();
   }
-  onNextQuestion: ()=>{};
+  public displayProducts(ids:string[]){};
 }

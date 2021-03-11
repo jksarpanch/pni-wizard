@@ -6,5 +6,5 @@ export declare class PniWizard {
     closeInteractiveWizard: () => void;
     resetInteractiveWizard: () => void;
     injectImages: () => void;
-    onNextQuestion: () => {};
+    displayProducts(ids: string[]): void;
 }

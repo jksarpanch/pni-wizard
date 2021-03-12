@@ -1,5 +1,5 @@
 // import { PniWizard } from "./pni-wizard";
-// import { PniWizard } from './pni-wizard';
+import { PniWizard } from './pni-wizard';
 import './style.css';
 declare var window;
 interface IQuestionList {
@@ -13,7 +13,7 @@ interface IQuestion {
   Products?: string[];
 };
 
-export class WizardFunctions {
+export class WizardFunctions extends PniWizard{
   private currentQuestionIndex: number = 0;
   private questionsApiRetryCount = 0;
   private questions: IQuestion[] = [];
@@ -25,10 +25,9 @@ export class WizardFunctions {
   private tracking: boolean = false;
   
   constructor() {
-    // super();
+    super();
     this.fetchFirstQuestion();
   }
-  displayProducts: any
   // Will make an api call to dynamic questions
   private async fetchNewQuestion() {
     return await fetch(this.dynamicsQuestionApi, {
@@ -243,10 +242,10 @@ export class WizardFunctions {
         document.getElementById(selectId).addEventListener("change", (e) => this.handleOptionChange(e, currentQuesSequence));
         this.currentQuestionIndex = this.currentQuestionIndex + 1;
         this.showHideResetButton();
-        this.displayProducts(this.questions[this.questions.length-1].Products)
+        super.displayProducts(this.questions[this.questions.length-1].Products)
       }
     }
-
+    
     else if (this.isPniWizardOpen() && !answerValue) {
       //TODO:JSS Temp for wix
       // window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");

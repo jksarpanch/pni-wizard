@@ -1,6 +1,5 @@
-import { PniWizard } from './pni-wizard';
 import './style.css';
-export declare class WizardFunctions extends PniWizard {
+export declare class WizardFunctions {
     private currentQuestionIndex;
     private questionsApiRetryCount;
     private questions;
@@ -31,6 +30,8 @@ export declare class WizardFunctions extends PniWizard {
     openInteractiveWizard: () => void;
     private showHideResetButton;
     private showNextQuestion;
+    displayProducts: any;
+    configureWizard(displayProducts: any): void;
     private resetWizard;
     resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;

@@ -1,2 +1,2 @@
-declare let openInteractiveWizard: () => void, closeInteractiveWizard: () => void, resetInteractiveWizard: () => void, displayProducts: (ids: string[]) => void;
+declare let openInteractiveWizard: () => void, closeInteractiveWizard: () => void, resetInteractiveWizard: () => void, displayProducts: any;
 export { openInteractiveWizard, closeInteractiveWizard, resetInteractiveWizard, displayProducts };

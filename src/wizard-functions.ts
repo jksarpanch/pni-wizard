@@ -1,4 +1,5 @@
 // import { PniWizard } from "./pni-wizard";
+// import { PniWizard } from './pni-wizard';
 import './style.css';
 declare var window;
 interface IQuestionList {
@@ -22,10 +23,12 @@ export class WizardFunctions {
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
   private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
+  
   constructor() {
     // super();
     this.fetchFirstQuestion();
   }
+  displayProducts: any
   // Will make an api call to dynamic questions
   private async fetchNewQuestion() {
     return await fetch(this.dynamicsQuestionApi, {
@@ -266,7 +269,7 @@ export class WizardFunctions {
     wizardContainer.innerHTML = '';
     this.resetWizard();
   }
-  displayProducts(ids:string[]){};
+ 
   // injectImages(){
   //   let imageWrapper = `<div class="wrapper">
   //   <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>

@@ -283,8 +283,6 @@ var WizardFunctions = (function () {
         else if (document.getElementById('pni-reset-button'))
             document.getElementById('pni-reset-button').style.visibility = 'hidden';
     };
-    WizardFunctions.prototype.displayProducts = function (ids) { };
-    ;
     return WizardFunctions;
 }());
 export { WizardFunctions };

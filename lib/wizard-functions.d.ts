@@ -10,6 +10,7 @@ export declare class WizardFunctions {
     private questionList;
     private tracking;
     constructor();
+    displayProducts: any;
     private fetchNewQuestion;
     private fetchFirstQuestion;
     private getWizardContent;
@@ -33,5 +34,4 @@ export declare class WizardFunctions {
     private resetWizard;
     resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;
-    displayProducts(ids: string[]): void;
 }

@@ -91,7 +91,7 @@ var WizardFunctions = (function () {
                             this.questions.push(newQuestion[0]);
                             return [2, true];
                         }
-                        this.displayProducts(newQuestion.Products);
+                        this.displayProducts(newQuestion[0].Products);
                         this.questionList.pop();
                         return [2, null];
                 }

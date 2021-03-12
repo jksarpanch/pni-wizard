@@ -160,7 +160,7 @@ export class WizardFunctions{
       this.questions.push(newQuestion[0]);
       return true;
     }
-    this.displayProducts(newQuestion.Products);
+    this.displayProducts(newQuestion[0].Products);
     this.questionList.pop();
     return null;
   }

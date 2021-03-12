@@ -251,7 +251,7 @@ export class WizardFunctions{
     }
   }
   displayProducts:any;
-  configureWizard(displayProducts){
+  configureWizard = (displayProducts) =>{
     this.displayProducts = displayProducts
   }
   private resetWizard = () => {

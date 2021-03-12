@@ -31,7 +31,7 @@ export declare class WizardFunctions {
     private showHideResetButton;
     private showNextQuestion;
     displayProducts: any;
-    configureWizard(displayProducts: any): void;
+    configureWizard: (displayProducts: any) => void;
     private resetWizard;
     resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;

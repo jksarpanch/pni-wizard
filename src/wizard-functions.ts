@@ -1,6 +1,3 @@
-// import { PniWizard } from "./pni-wizard";
-// import { PniWizard } from './pni-wizard';
-import './style.css';
 declare var window;
 interface IQuestionList {
   sequence: number;
@@ -23,7 +20,7 @@ export class WizardFunctions{
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
   private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
-  
+  displayProducts: any;
   constructor() {
     this.fetchFirstQuestion();
   }
@@ -251,8 +248,8 @@ export class WizardFunctions{
       // window.parent.postMessage(this.questions[this.questions.length - 1].Products, "https://satish0543.wixsite.com");
     }
   }
-  displayProducts:any;
-  configureWizard = (displayProducts) =>{
+  
+  configureWizard = (displayProducts: void) =>{
     this.displayProducts = displayProducts
   }
   private resetWizard = () => {

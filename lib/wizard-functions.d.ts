@@ -1,4 +1,3 @@
-import './style.css';
 export declare class WizardFunctions {
     private currentQuestionIndex;
     private questionsApiRetryCount;
@@ -9,6 +8,7 @@ export declare class WizardFunctions {
     private dynamicsQuestionApi;
     private questionList;
     private tracking;
+    displayProducts: any;
     constructor();
     private fetchNewQuestion;
     private fetchFirstQuestion;
@@ -30,8 +30,7 @@ export declare class WizardFunctions {
     openInteractiveWizard: () => void;
     private showHideResetButton;
     private showNextQuestion;
-    displayProducts: any;
-    configureWizard: (displayProducts: any) => void;
+    configureWizard: (displayProducts: void) => void;
     private resetWizard;
     resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;

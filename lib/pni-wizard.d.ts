@@ -1,4 +1,9 @@
+import './style.css';
 export declare class PniWizard {
+    private wf;
     constructor();
-    displayProducts(ids: string[]): void;
+    openInteractiveWizard: () => void;
+    closeInteractiveWizard: () => void;
+    resetInteractiveWizard: () => void;
+    configureWizard(displayProducts: void): void;
 }

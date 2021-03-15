@@ -12,12 +12,11 @@ var PniWizard = (function () {
         this.resetInteractiveWizard = function () {
             _this.wf.resetInteractiveWizard();
         };
+        this.configureWizard = function (displayProducts) {
+            _this.wf.configureWizard(displayProducts);
+        };
         this.wf = new WizardFunctions();
     }
-    PniWizard.prototype.configureWizard = function (displayProducts) {
-        this.wf.configureWizard(displayProducts);
-    };
-    ;
     return PniWizard;
 }());
 export { PniWizard };

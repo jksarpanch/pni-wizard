@@ -19,7 +19,7 @@ export class PniWizard {
   // injectImages = () =>{
   //   this.wf.injectImages();
   // }
-  configureWizard(displayProducts: void){
+  configureWizard = (displayProducts: void) => {
     this.wf.configureWizard(displayProducts)
   };
 }

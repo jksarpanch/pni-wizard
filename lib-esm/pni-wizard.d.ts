@@ -5,5 +5,5 @@ export declare class PniWizard {
     openInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;
     resetInteractiveWizard: () => void;
-    configureWizard(displayProducts: void): void;
+    configureWizard: (displayProducts: void) => void;
 }

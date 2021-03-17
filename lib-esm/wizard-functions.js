@@ -48,6 +48,7 @@ var WizardFunctions = (function () {
         this.dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
         this.questionList = [];
         this.tracking = false;
+        this.displayProducts = function (ids) { };
         this.handleOptionChange = function (e, currentQuestionSequence) {
             var currentQuestion = _this.questions[currentQuestionSequence];
             var question = currentQuestion.Question;
@@ -161,7 +162,7 @@ var WizardFunctions = (function () {
             });
         }); };
         this.configureWizard = function (displayProducts) {
-            _this.displayProducts = displayProducts;
+            _this.displayProducts = displayProducts ? displayProducts : _this.displayProducts;
         };
         this.resetWizard = function () {
             _this.questions = [_this.questions[0]];

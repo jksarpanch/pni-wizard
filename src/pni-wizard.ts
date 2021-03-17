@@ -15,10 +15,7 @@ export class PniWizard {
   }  
   resetInteractiveWizard = () => {
     this.wf.resetInteractiveWizard()
-  } 
-  // injectImages = () =>{
-  //   this.wf.injectImages();
-  // }
+  }
   configureWizard = (displayProducts: void) => {
     this.wf.configureWizard(displayProducts)
   };

@@ -20,7 +20,7 @@ export class WizardFunctions{
   private dynamicsQuestionApi = 'https://pni-dev-p2p-web-api.pnidev.com/PNIMedia/DynamicQuestions/';
   private questionList: IQuestionList[] = [];
   private tracking: boolean = false;
-  displayProducts: any;
+  displayProducts=(ids:string[])=>{};
   constructor() {
     this.fetchFirstQuestion();
   }
@@ -249,8 +249,8 @@ export class WizardFunctions{
     }
   }
   
-  configureWizard = (displayProducts: void) =>{
-    this.displayProducts = displayProducts
+  configureWizard = (displayProducts: any) =>{
+    this.displayProducts = displayProducts ? displayProducts : this.displayProducts
   }
   private resetWizard = () => {
     this.questions = [this.questions[0]];

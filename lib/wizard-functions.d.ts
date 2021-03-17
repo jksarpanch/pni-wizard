@@ -8,7 +8,7 @@ export declare class WizardFunctions {
     private dynamicsQuestionApi;
     private questionList;
     private tracking;
-    displayProducts: any;
+    displayProducts: (ids: string[]) => void;
     constructor();
     private fetchNewQuestion;
     private fetchFirstQuestion;
@@ -30,7 +30,7 @@ export declare class WizardFunctions {
     openInteractiveWizard: () => void;
     private showHideResetButton;
     private showNextQuestion;
-    configureWizard: (displayProducts: void) => void;
+    configureWizard: (displayProducts: any) => void;
     private resetWizard;
     resetInteractiveWizard: () => void;
     closeInteractiveWizard: () => void;

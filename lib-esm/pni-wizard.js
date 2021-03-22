@@ -1,4 +1,4 @@
-import { WizardFunctions } from './wizard-functions';
+import { PopulateWizard } from './populate-wizard';
 import './style.css';
 var PniWizard = (function () {
     function PniWizard() {
@@ -15,7 +15,7 @@ var PniWizard = (function () {
         this.configureWizard = function (displayProducts) {
             _this.wf.configureWizard(displayProducts);
         };
-        this.wf = new WizardFunctions();
+        this.wf = new PopulateWizard();
     }
     return PniWizard;
 }());

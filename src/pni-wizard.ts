@@ -1,10 +1,10 @@
-import { WizardFunctions } from './wizard-functions'
+import { PopulateWizard } from './populate-wizard'
 import './style.css';
 export class PniWizard {
   // Add interface
-  private wf: WizardFunctions;
+  private wf: PopulateWizard;
   constructor() {
-    this.wf = new WizardFunctions();
+    this.wf = new PopulateWizard();
   }
 
   openInteractiveWizard = () => {

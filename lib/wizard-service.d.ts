@@ -13,6 +13,8 @@ export declare class WizardService {
     private defaultTopPosition;
     private defaultRightPosition;
     private defaultLeftPosition;
+    tracking: boolean;
+    displayProducts: (ids: string[]) => void;
     constructor();
     private getWizardContent;
     private removeRepetitiveElements;
@@ -25,4 +27,6 @@ export declare class WizardService {
     triggerTrackingEvent(sequence_id: number, questionText: string, answerValue: string): void;
     showHideResetButton(questions: any): void;
     addQuestionAnswerHtml(currentQuesIndex: number, questions: IQuestion[]): string;
+    configuringWizard(wizardContainer: Element): void;
+    configureWizard: (displayProducts: any) => void;
 }

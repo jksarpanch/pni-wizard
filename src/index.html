@@ -9,7 +9,7 @@
     <meta name="description" content="The HTML5 Herald">
     <meta name="Singh" content="SitePoint">
 
-    <link rel="stylesheet" href="../dist/style.css">
+    <link rel="stylesheet" href="./style.css">
     <script defer src="../dist/index.js"></script>
     <!-- <script src="./pni-wizard-lib.js"></script> -->
 </head>
@@ -18,7 +18,25 @@
     <h1>Hello</h1>
     <button onclick="PniWizard.openInteractiveWizard()">Open Wizard</button>
     <button onclick="PniWizard.showNextQuestion()">Next question</button>
-    <div class="pni-wizard" id="pni-interactive-wizard" positioning='true' top='10%' right='5%' left="10%"></div>
-    <Analytics-Wizard positioning='true' top='10%' right='3%' left="10%"></Analytics-Wizard>
+    <button onclick="PniWizard.injectImages()">injectImages</button>
     
+    <div class="pni-wizard" id="pni-interactive-wizard" positioning='true' top='10%' right='5%' left="10%"></div>
+    <Analytics-Wizard positioning='true' top='10%' right='3%' left="10%" tracking=true></Analytics-Wizard>
+    <div class="grid-container">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>  
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>  
+        <div>7</div>
+        <div>8</div>
+      </div>
+      <div class="wrapper">
+        <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+     <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+     <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+     <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+     <div><img style='max-width: 100%' src='https://dummyimage.com/640x4:3/'></div>
+      </div>
 </body>
